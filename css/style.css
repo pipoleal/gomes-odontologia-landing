@@ -154,6 +154,7 @@ address { font-style: normal; }
   color: rgba(255,255,255,0.85);
   padding: 6px 10px;
   background: rgba(37,26,20,0.35);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -193,6 +194,7 @@ address { font-style: normal; }
   font-weight: 600;
   padding: 8px 14px;
   border: 1px solid var(--line);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   background: rgba(255,255,255,0.55);
 }
@@ -201,6 +203,7 @@ address { font-style: normal; }
 /* ---------- Floating card (glassmorphism leve, estilo "flutuante") ---------- */
 .float-card {
   background: rgba(255, 253, 251, 0.88);
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   border: 1px solid rgba(255,255,255,0.6);
   box-shadow: 0 24px 60px -20px rgba(37, 26, 20, 0.35);
@@ -219,6 +222,7 @@ address { font-style: normal; }
 }
 .site-header.is-scrolled {
   background: rgba(251, 245, 239, 0.88);
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   padding: 14px var(--gutter);
   box-shadow: 0 1px 0 var(--line-ink), 0 12px 30px -20px rgba(37,26,20,0.25);
@@ -467,8 +471,6 @@ address { font-style: normal; }
 }
 .editorial__text h3 { font-size: clamp(30px, 3.6vw, 54px); margin-bottom: 22px; line-height: 1.08; max-width: 460px; }
 .editorial__text p { color: var(--ink-soft); font-size: 15.5px; max-width: 420px; margin-bottom: 30px; line-height: 1.8; }
-.editorial__panel--pending .editorial__text h3 { color: var(--gold-deep); }
-.editorial__panel--pending .pending-tag { color: var(--ink-faint); }
 
 /* ============================================================
    07 · STRUCTURE / EXPERIENCE

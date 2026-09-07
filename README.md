@@ -10,7 +10,14 @@ clínica no Beira Praia Shopping, Boiçucanga — São Sebastião/SP.
 > **v3** — a cliente enviou um pacote de fotos e um vídeo reais (casos de antes/depois
 > em alta qualidade, duas avaliações do Google e o vídeo de depoimento da paciente
 > Tatiana). Essas fotos substituíram as capturas de tela de baixa resolução da v2 em
-> Especialidades, Resultados e Depoimentos — ver seção 4.
+> Especialidades, Resultados e Depoimentos — ver seção 4. O vídeo da Tatiana (completo,
+> com áudio) virou o visual principal do hero, com controles nativos.
+>
+> **v4** — a cliente enviou 4 fotos reais tiradas na própria clínica (fachada, recepção
+> com a logo, sala de espera, sala de atendimento) em boa resolução. A foto da fachada
+> confirmou oficialmente a lista completa de serviços (inclusive harmonização facial,
+> antes marcada como não confirmada) e o número de WhatsApp. Essas fotos substituíram
+> as fotos de pacientes/equipe usadas antes em "A Clínica", Estrutura e Galeria.
 
 ---
 
@@ -85,21 +92,16 @@ Todas em `assets/images/clinic/`, extraídas via captura de tela do Instagram of
 | Arquivo | Usado em | Conteúdo real |
 |---|---|---|
 | `logo-marca-real.jpg` | referência de paleta (não usada como `<img>` no site) | Logo oficial, script rose-gold sobre fundo creme |
-| `retrato-perfil-real.jpg` | Seção Profissionais, Galeria | Foto de perfil do Instagram (provável retrato da Dra. Alanis) |
-| `paciente-consultorio-01.jpg` | Hero (textura 3D), Galeria | Paciente real sorrindo, consultório ao fundo |
-| `paciente-consultorio-02.jpg` | Seção "A Clínica" | Mesma paciente, outro ângulo — mostra equipamento/interior |
-| `antes-depois-real-01.jpg` | Especialidades (Implantes), Resultados | Caso real de reabilitação com implantes + prótese fixa |
-| `depoimento-video-frame.jpg` | Card flutuante do hero | Frame de vídeo de depoimento real |
-| `ortodontia-real-01.jpg` | Especialidades (Ortodontia), Galeria | Aparelho ortodôntico real, close-up |
-| `experiencia-sacola-marca.jpg` | Seção Estrutura | Detalhe de atendimento — sacola personalizada da marca |
-| `equipe-colaboradora-01.jpg`, `equipe-colaboradora-02.jpg` | Seção Estrutura, Galeria | Membros da equipe no ambiente da clínica |
+| `retrato-perfil-real.jpg` | Seção Profissionais, Galeria | Foto de perfil do Instagram (provável retrato da Dra. Alanis) — ainda baixa resolução, ver seção 5 |
+| `ortodontia-real-01.jpg` | Galeria | Aparelho ortodôntico real, close-up (captura de tela do Instagram) |
 
-**Fotos e vídeo enviados diretamente pela cliente (v3 — qualidade bem superior às capturas de tela acima):**
+**Fotos e vídeo enviados diretamente pela cliente (v3 — casos, avaliações e depoimento em vídeo):**
 
 | Arquivo | Usado em | Conteúdo real |
 |---|---|---|
 | `depoimento-tatiana-completo.mp4` + `depoimento-tatiana-hero-poster.jpg` | Área principal do hero | Vídeo real e completo (97s, **com áudio**) de depoimento da paciente **Tatiana**, comprimido de 17MB para ~7,5MB. Toca sob demanda (controles nativos), não em autoplay — navegadores bloqueiam autoplay com som |
 | `depoimento-tatiana-poster.jpg` | Card flutuante do hero (placeholder temporário) | Frame do mesmo vídeo, usado até a cliente enviar uma foto real da Tatiana sorrindo para esse espaço |
+| `antes-depois-real-01.jpg` | Especialidades (Implantes), Resultados | Caso real de reabilitação com implantes + prótese fixa (paciente "Tati") |
 | `ortodontia-real-02.jpg` | Especialidades (Ortodontia) | Antes/depois real de aparelho ortodôntico |
 | `clareamento-real-01.jpg` | Especialidades (Odontologia Estética) | Antes/depois real de clareamento dental |
 | `resultado-real-01-reabilitacao.jpg` | Resultados | Antes/depois — reabilitação estética completa |
@@ -108,11 +110,20 @@ Todas em `assets/images/clinic/`, extraídas via captura de tela do Instagram of
 | `resultado-real-04-restauracao.jpg` | Resultados | Peça "Antes & Depois — Restauração" já formatada pela própria clínica |
 | `avaliacao-google-nayra.jpg`, `avaliacao-google-anaclara.jpg` | (referência — texto já transcrito no HTML) | Prints das peças "Feedback — Avaliação Google" da clínica, com avaliações reais e nome completo |
 
-Esses depoimentos do Google (Nayra Campos, Ana Clara Gomes) e o depoimento da Tatiana **não têm mais a tag de "confirmar autorização"** da v2, porque são peças que a própria clínica já formatou para divulgação pública — mas continua valendo confirmar com a cliente se ela quer o texto integral ou resumido no site.
+**Fotos tiradas na própria clínica pela cliente (v4 — melhor qualidade de todas, câmera de verdade):**
+
+| Arquivo | Usado em | Conteúdo real |
+|---|---|---|
+| `fachada-real.jpg` | Estrutura, Galeria, `og:image`/dados estruturados | Fachada da clínica no Beira Praia Shopping, com a placa oficial — **lista completa de serviços e telefone visíveis na foto** (ver seção 1) |
+| `recepcao-logo-real.jpg` | Seção "A Clínica" | Parede da recepção com a logo oficial em relevo/espelhada |
+| `recepcao-espera-real.jpg` | Estrutura, Galeria | Sala de espera/recepção completa |
+| `sala-atendimento-real.jpg` | Estrutura | Sala de atendimento com cadeira odontológica e equipamentos |
+
+Os depoimentos do Google (Nayra Campos, Ana Clara Gomes) e o depoimento da Tatiana **não têm mais a tag de "confirmar autorização"**, porque são peças que a própria clínica já formatou para divulgação pública — mas continua valendo confirmar com a cliente se ela quer o texto integral ou resumido no site institucional.
 
 Para trocar qualquer imagem por uma versão em resolução ainda maior: basta substituir o arquivo mantendo o mesmo nome — nenhum HTML/CSS precisa mudar.
 
-Onde ainda não há foto real (Odontologia Estética/Clareamento, Odontopediatria, Harmonização Facial, Recepção, Sala de atendimento dedicada, Fachada), o painel `.img-placeholder` (CSS, com legenda indicando o que falta) permanece — ver seção 5 para a lista do que pedir.
+Onde ainda não há foto real (Odontopediatria e Harmonização Facial — este último já confirmado como serviço, só falta a foto do procedimento), o painel `.img-placeholder` (CSS, com legenda indicando o que falta) permanece — ver seção 5 para a lista do que pedir.
 
 ---
 
