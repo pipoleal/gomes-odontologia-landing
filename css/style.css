@@ -495,6 +495,9 @@ address { font-style: normal; }
 .gallery__item, .gallery__item--wide, .gallery__item--video {
   border-radius: 10px; overflow: hidden; aspect-ratio: 16 / 9;
 }
+/* O vídeo da clínica foi filmado na vertical — mantém a proporção real
+   (9:16) em vez do 16:9 das fotos, para não cortar a maior parte da cena. */
+.gallery__item--video { aspect-ratio: 9 / 16; max-width: 480px; margin: 0 auto; }
 .gallery__item--video video { width: 100%; height: 100%; object-fit: cover; display: block; background: var(--cream-deep); }
 
 /* ============================================================
