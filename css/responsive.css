@@ -86,7 +86,11 @@
   .clinic-tour__item, .clinic-tour__item--wide { aspect-ratio: 16/10; }
   .clinic-tour__item--video { aspect-ratio: 9/16; }
 
-  .carousel__nav { display: none; } /* mobile usa gesto de arrastar/scroll nativo */
+  /* Setas menores e dentro da área visível — sinalizam que dá pra arrastar
+     pra ver mais itens, mesmo em quem não tenta o gesto de swipe. */
+  .carousel__nav { width: 36px; height: 36px; font-size: 15px; }
+  .carousel__nav--prev { left: 6px; }
+  .carousel__nav--next { right: 6px; }
 
   .location__info { padding: 60px var(--gutter); }
   .location__info address { margin-bottom: 30px; }
