@@ -1,16 +1,16 @@
 /* ============================================================
    GOMES ODONTOLOGIA & ESTÉTICA — responsive.css
    Mobile-first adjustments — a experiência mobile é redesenhada,
-   não apenas encolhida.
+   não apenas encolhida. A maior parte do tráfego vem de anúncio/mobile.
    ============================================================ */
 
 /* ---------- Notebook / tablet-landscape (<=1180px) ---------- */
 @media (max-width: 1180px) {
-  .experience__grid { grid-template-columns: repeat(2, 1fr); }
-  .structure__grid { grid-template-columns: repeat(2, 1fr); }
-  .testimonials__grid { grid-template-columns: repeat(2, 1fr); }
-  .results__grid--quad { grid-template-columns: repeat(2, 1fr); }
-  .main-nav ul { gap: 24px; }
+  .treatments-highlight__grid { grid-template-columns: repeat(2, 1fr); }
+  .team__grid { grid-template-columns: repeat(2, 1fr); }
+  .clinic-tour__grid { grid-template-columns: repeat(2, 1fr); }
+  .clinic-tour__item--video { grid-row: span 1; aspect-ratio: 9/16; }
+  .main-nav ul { gap: 22px; }
 
   .hero__inner { gap: 32px; }
   .hero__float-card--rating { left: 0; }
@@ -31,21 +31,17 @@
 
   .hero__inner { grid-template-columns: 1fr; }
   .hero__content { max-width: 100%; }
-  .hero__scene { height: clamp(320px, 50vh, 460px); margin-top: 20px; }
+  .hero__scene { height: clamp(340px, 52vh, 480px); margin-top: 20px; }
 
-  .about, .location { grid-template-columns: 1fr; }
-  .about__media { min-height: 380px; }
-  .about__content { padding: 70px var(--gutter); }
+  .doctor-bio, .location { grid-template-columns: 1fr; }
+  .doctor-bio__media { min-height: 380px; }
+  .doctor-bio__content { padding: 70px var(--gutter); }
   .location__map { min-height: 320px; order: -1; }
 
-  .editorial__panel, .editorial__panel:nth-child(even) {
-    direction: ltr; grid-template-columns: 1fr; min-height: auto;
-  }
-  .editorial__media { min-height: 340px; }
-  .editorial__text { padding: 50px var(--gutter); }
+  .treatment-row { grid-template-columns: 1fr; }
+  .treatment-row__media { max-width: 280px; }
 
-  .results__grid { grid-template-columns: 1fr; }
-  .testimonials__grid { grid-template-columns: 1fr; }
+  .team__grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
 }
 
 /* ---------- Mobile (<=680px) — experiência própria ---------- */
@@ -57,39 +53,43 @@
   .brand-mark__name { font-size: 18px; }
 
   /* Hero — impacto total, tipografia compacta, CTA empilhado */
-  .hero { padding-top: 84px; }
-  .hero__headline { font-size: clamp(32px, 9vw, 44px); }
-  .hero__sub { font-size: 15px; max-width: 100%; }
-  .hero__actions { flex-direction: column; align-items: stretch; gap: 14px; margin-bottom: 28px; }
+  .hero { padding-top: 84px; min-height: auto; }
+  .hero__lead { font-size: 16px; max-width: 100%; }
+  .hero__actions { flex-direction: column; align-items: stretch; gap: 14px; margin-bottom: 24px; }
   .hero__actions .btn { width: 100%; }
-  .hero__stats { gap: 28px; }
   .hero__scroll-indicator { display: none; }
 
   .hero__scene { height: 320px; margin-top: 16px; }
   .hero__float-card { display: none; } /* cards flutuantes saem no mobile — foto ocupa o espaço inteiro */
 
-  .experience, .structure, .team, .testimonials, .final-cta, .gallery, .results { padding: 90px var(--gutter); }
-  .experience__intro, .structure__intro, .team__intro, .testimonials__intro, .gallery__intro, .results__intro { margin-bottom: 44px; }
-  .experience__grid { grid-template-columns: 1fr; }
-  .pillar-card { padding: 36px 26px; }
+  .statement { padding: 90px var(--gutter); }
+  .statement__actions { flex-direction: column; align-items: stretch; }
+  .statement__actions .btn { width: 100%; }
 
-  .about__content h2, .location__info h2 { font-size: 30px; }
-  .about__content, .location__info { padding: 60px var(--gutter); }
+  .treatments-highlight, .treatments-list, .team, .testimonials, .final-cta, .clinic-tour, .results-carousel {
+    padding: 90px var(--gutter);
+  }
+  .treatments-highlight__intro, .treatments-list__intro, .team__intro, .testimonials__intro, .clinic-tour__intro, .results-carousel__intro {
+    margin-bottom: 44px;
+  }
+  .treatments-highlight__grid { grid-template-columns: 1fr; }
+  .treatment-card { padding: 34px 24px; }
 
-  .specialties { padding-top: 90px; }
-  .specialties__intro { padding: 0 var(--gutter); margin-bottom: 44px; }
-  .editorial__text h3 { font-size: 30px; max-width: 100%; }
-  .editorial__media { min-height: 280px; }
-  .editorial__text { padding: 40px var(--gutter); }
+  .doctor-bio__content h2, .location__info h2 { font-size: 30px; }
+  .doctor-bio__content, .location__info { padding: 60px var(--gutter); }
 
-  .structure__grid { grid-template-columns: 1fr; gap: 18px; }
-  .structure__card { aspect-ratio: 16/10; }
-
+  .treatments-list { padding-top: 90px; }
+  .treatment-row { padding: 28px 0; gap: 20px; }
+  .treatment-row__media { max-width: 100%; aspect-ratio: 16/10; }
+  .treatment-row__text h3 { font-size: 24px; }
 
   .team__grid { grid-template-columns: 1fr; }
 
-  .results__grid { gap: 30px; }
-  .results__grid--quad { grid-template-columns: 1fr; }
+  .clinic-tour__grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
+  .clinic-tour__item, .clinic-tour__item--wide { aspect-ratio: 16/10; }
+  .clinic-tour__item--video { aspect-ratio: 9/16; }
+
+  .carousel__nav { display: none; } /* mobile usa gesto de arrastar/scroll nativo */
 
   .location__info { padding: 60px var(--gutter); }
   .location__info address { margin-bottom: 30px; }
@@ -106,11 +106,11 @@
     display: flex; align-items: center; justify-content: center;
     position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 90;
     padding: 16px 20px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold) 60%, var(--gold-deep));
+    background: linear-gradient(135deg, var(--gold-light), var(--gold) 55%, var(--gold-deep));
     color: var(--cream);
     font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600;
     border-radius: 3px;
-    box-shadow: 0 12px 34px -8px rgba(37,26,20,0.4);
+    box-shadow: 0 12px 34px -8px rgba(27,29,32,0.4);
   }
 
   .mobile-menu ul { gap: 20px; margin-bottom: 34px; }
@@ -119,6 +119,6 @@
 
 /* ---------- Small phones ---------- */
 @media (max-width: 380px) {
-  .hero__headline { font-size: 28px; }
+  .statement h1 { font-size: 30px; }
   .btn { padding: 14px 22px; }
 }

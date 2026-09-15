@@ -80,9 +80,9 @@
       });
     });
 
-    /* ---------- Editorial de especialidades — leve parallax por painel ---------- */
-    document.querySelectorAll('.editorial__panel').forEach((panel) => {
-      const media = panel.querySelector('.editorial__media .img-placeholder, .editorial__media .photo');
+    /* ---------- Tratamentos (lista compacta) — leve parallax por linha ---------- */
+    document.querySelectorAll('.treatment-row').forEach((row) => {
+      const media = row.querySelector('.treatment-row__media');
       if (!media) return;
       gsap.fromTo(
         media,
@@ -91,7 +91,7 @@
           yPercent: 6,
           ease: 'none',
           scrollTrigger: {
-            trigger: panel,
+            trigger: row,
             start: 'top bottom',
             end: 'bottom top',
             scrub: true,
@@ -100,17 +100,17 @@
       );
     });
 
-    /* ---------- About — leve escala de entrada na imagem ---------- */
-    const aboutMedia = document.querySelector('.about__media .photo');
-    if (aboutMedia) {
+    /* ---------- Bio da Dra. Alanis — leve escala de entrada na imagem ---------- */
+    const doctorBioMedia = document.querySelector('.doctor-bio__media .photo');
+    if (doctorBioMedia) {
       gsap.fromTo(
-        aboutMedia,
+        doctorBioMedia,
         { scale: 1.12 },
         {
           scale: 1,
           ease: 'none',
           scrollTrigger: {
-            trigger: '.about',
+            trigger: '.doctor-bio',
             start: 'top bottom',
             end: 'center center',
             scrub: true,

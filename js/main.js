@@ -27,7 +27,7 @@
     const hasNumber = CONFIG.whatsappNumber && CONFIG.whatsappNumber !== 'WHATSAPP_NUMBER_HERE';
     const href = hasNumber
       ? `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(CONFIG.whatsappMessage)}`
-      : '#localizacao'; // fallback enquanto o número não é confirmado
+      : '#como-chegar'; // fallback enquanto o número não é confirmado
 
     document.querySelectorAll('[data-whatsapp-link]').forEach((el) => {
       el.setAttribute('href', href);
