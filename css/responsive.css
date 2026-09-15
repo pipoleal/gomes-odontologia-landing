@@ -13,7 +13,6 @@
   .main-nav ul { gap: 22px; }
 
   .hero__inner { gap: 32px; }
-  .hero__float-card--rating { left: 0; }
 }
 
 /* ---------- Tablet (<=980px) ---------- */
@@ -59,7 +58,6 @@
   .hero__scroll-indicator { display: none; }
 
   .hero__scene { height: 320px; margin-top: 16px; }
-  .hero__float-card { display: none; } /* cards flutuantes saem no mobile — foto ocupa o espaço inteiro */
 
   .statement { padding: 90px var(--gutter); }
   .statement__actions { flex-direction: column; align-items: stretch; }

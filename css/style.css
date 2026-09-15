@@ -185,15 +185,6 @@ address { font-style: normal; }
 }
 .avatar-placeholder svg { width: 42%; height: 42%; color: var(--chumbo-light); }
 
-/* ---------- Floating card (glassmorphism leve) ---------- */
-.float-card {
-  background: rgba(255, 255, 255, 0.88);
-  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
-  border: 1px solid rgba(255,255,255,0.6);
-  box-shadow: 0 24px 60px -20px rgba(27, 29, 32, 0.35);
-  border-radius: 14px;
-}
-
 /* ============================================================
    HEADER
    ============================================================ */
@@ -290,12 +281,6 @@ address { font-style: normal; }
   border-radius: 20px; overflow: hidden;
   box-shadow: 0 50px 90px -30px rgba(27, 29, 32, 0.35);
 }
-
-.hero__float-card { position: absolute; padding: 16px; width: 190px; z-index: 4; }
-.hero__float-card--rating { top: 8%; left: -6%; }
-.hero__float-card--rating .float-card__row { display: flex; align-items: center; gap: 10px; }
-.hero__float-card--rating strong { font-family: var(--font-display); font-size: 26px; color: var(--ink); }
-.hero__float-card--rating span { display: block; font-size: 11px; color: var(--ink-faint); margin-top: 2px; }
 
 .hero__scroll-indicator {
   position: absolute; left: var(--gutter); bottom: 28px; z-index: 3;
