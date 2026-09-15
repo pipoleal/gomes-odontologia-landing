@@ -36,8 +36,7 @@
   .doctor-bio__content { padding: 70px var(--gutter); }
   .location__map { min-height: 320px; order: -1; }
 
-  .treatment-row { grid-template-columns: 1fr; }
-  .treatment-row__media { max-width: 280px; }
+  .treatment-row { grid-template-columns: 160px 1fr; gap: 24px; }
 
   .team__grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
 }
@@ -76,9 +75,10 @@
   .doctor-bio__content, .location__info { padding: 60px var(--gutter); }
 
   .treatments-list { padding-top: 90px; }
-  .treatment-row { padding: 28px 0; gap: 20px; }
-  .treatment-row__media { max-width: 100%; aspect-ratio: 16/10; }
-  .treatment-row__text h3 { font-size: 24px; }
+  .treatment-row { grid-template-columns: 92px 1fr; padding: 22px 0; gap: 16px; align-items: flex-start; }
+  .treatment-row__index { font-size: 10px; margin-bottom: 4px; }
+  .treatment-row__text h3 { font-size: 19px; margin-bottom: 6px; }
+  .treatment-row__text p { font-size: 13.5px; line-height: 1.55; margin-bottom: 8px; }
 
   .team__grid { grid-template-columns: 1fr; }
 
