@@ -8,8 +8,7 @@
 @media (max-width: 1180px) {
   .treatments-highlight__grid { grid-template-columns: repeat(2, 1fr); }
   .team__grid { grid-template-columns: repeat(2, 1fr); }
-  .clinic-tour__grid { grid-template-columns: repeat(2, 1fr); }
-  .clinic-tour__item--video { grid-row: span 1; aspect-ratio: 9/16; }
+  .clinic-tour__grid { grid-template-columns: repeat(3, 1fr); }
   .main-nav ul { gap: 22px; }
 
   .hero__inner { gap: 32px; }
@@ -82,9 +81,7 @@
 
   .team__grid { grid-template-columns: 1fr; }
 
-  .clinic-tour__grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
-  .clinic-tour__item, .clinic-tour__item--wide { aspect-ratio: 16/10; }
-  .clinic-tour__item--video { aspect-ratio: 9/16; }
+  .clinic-tour__grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
 
   /* Setas menores e dentro da área visível — sinalizam que dá pra arrastar
      pra ver mais itens, mesmo em quem não tenta o gesto de swipe. */

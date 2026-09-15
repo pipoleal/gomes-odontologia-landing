@@ -14,7 +14,7 @@
 <meta property="og:type" content="business.business">
 <meta property="og:title" content="Gomes Odontologia & Estética | Dentista em Boiçucanga">
 <meta property="og:description" content="Odontologia moderna e personalizada, com resultados que surpreendem. Clínica no Beira Praia Shopping, Boiçucanga - São Sebastião.">
-<meta property="og:image" content="assets/images/clinic/fachada-real.jpg">
+<meta property="og:image" content="assets/images/clinic/recepcao-ambiente-real.jpg">
 <meta property="og:url" content="https://www.gomesodontoestetica.com.br/">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Gomes Odontologia & Estética">
@@ -42,7 +42,7 @@
   "@type": "Dentist",
   "name": "Gomes Odontologia & Estética",
   "alternateName": "Dentista Boiçucanga",
-  "image": "https://www.gomesodontoestetica.com.br/assets/images/clinic/fachada-real.jpg",
+  "image": "https://www.gomesodontoestetica.com.br/assets/images/clinic/recepcao-ambiente-real.jpg",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Av. Walkir Vergani, 614 - Sala 34 A, Beira Praia Shopping",
@@ -419,16 +419,12 @@
       </p>
     </div>
 
+    <!--
+      Grid uniforme (mesma proporção em todo item, sem "spans" largos) — fácil
+      de adicionar/remover fotos sem quebrar o layout. Ordem: fotos da clínica,
+      depois o card de "Ambiente Refrigerado", e o vídeo sempre por último.
+    -->
     <div class="clinic-tour__grid">
-      <div class="clinic-tour__item clinic-tour__item--wide reveal-up" data-reveal>
-        <div class="photo photo--fill">
-          <img src="assets/images/clinic/fachada-real.jpg" alt="Fachada da Gomes Odontologia & Estética, no Beira Praia Shopping" loading="lazy">
-        </div>
-      </div>
-      <div class="clinic-tour__item clinic-tour__item--video reveal-up" data-reveal>
-        <!-- Vídeo real da clínica (tour pela fachada/recepção), em loop mudo. -->
-        <video src="assets/images/clinic/clinica-video-galeria.mp4" poster="assets/images/clinic/clinica-video-poster.jpg" autoplay muted loop playsinline aria-label="Vídeo real da Gomes Odontologia & Estética"></video>
-      </div>
       <div class="clinic-tour__item reveal-up" data-reveal>
         <div class="photo photo--fill">
           <img src="assets/images/clinic/recepcao-logo-real.jpg" alt="Recepção com a logo oficial da clínica" loading="lazy">
@@ -436,13 +432,26 @@
       </div>
       <div class="clinic-tour__item reveal-up" data-reveal>
         <div class="photo photo--fill">
+          <img src="assets/images/clinic/recepcao-ambiente-real.jpg" alt="Ambiente de recepção da Gomes Odontologia & Estética" loading="lazy">
+        </div>
+      </div>
+      <div class="clinic-tour__item reveal-up" data-reveal>
+        <div class="photo photo--fill">
           <img src="assets/images/clinic/recepcao-espera-real.jpg" alt="Sala de espera da clínica" loading="lazy">
         </div>
       </div>
-      <div class="clinic-tour__item clinic-tour__item--wide reveal-up" data-reveal>
+      <div class="clinic-tour__item reveal-up" data-reveal>
         <div class="photo photo--fill">
           <img src="assets/images/clinic/sala-atendimento-real.jpg" alt="Sala de atendimento da clínica" loading="lazy">
         </div>
+      </div>
+      <div class="clinic-tour__item clinic-tour__item--amenity reveal-up" data-reveal>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 2v20M4.5 6l15 12M19.5 6l-15 12M2 12h20"/></svg>
+        <span>Ambiente Refrigerado</span>
+      </div>
+      <div class="clinic-tour__item reveal-up" data-reveal>
+        <!-- Vídeo real da clínica (tour pela fachada/recepção), em loop mudo. -->
+        <video src="assets/images/clinic/clinica-video-galeria.mp4" poster="assets/images/clinic/clinica-video-poster.jpg" autoplay muted loop playsinline aria-label="Vídeo real da Gomes Odontologia & Estética"></video>
       </div>
     </div>
   </section>
