@@ -94,6 +94,7 @@
 
   .final-cta { padding: 120px var(--gutter); }
   .final-cta h2 { font-size: 32px; }
+  .final-cta .btn { width: 100%; white-space: normal; }
 
   .site-footer { padding: 70px var(--gutter) 100px; } /* espaço extra p/ CTA fixo */
   .site-footer__grid { grid-template-columns: 1fr; gap: 40px; text-align: left; }
