@@ -14,7 +14,6 @@
 
   .hero__inner { gap: 32px; }
   .hero__float-card--rating { left: 0; }
-  .hero__float-card--patient { right: 0; width: 190px; }
 }
 
 /* ---------- Tablet (<=980px) ---------- */
