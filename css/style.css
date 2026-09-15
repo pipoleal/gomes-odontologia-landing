@@ -224,6 +224,14 @@ address { font-style: normal; }
 .main-nav a:hover::after { width: 100%; }
 .btn--nav { color: var(--ink); border-color: rgba(34,37,42,0.25); padding: 11px 22px; }
 .btn--nav:hover { background: var(--gold); border-color: var(--gold); color: var(--cream); }
+.nav-social {
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 50%;
+  color: var(--ink); opacity: 0.78;
+  transition: opacity 0.3s ease, color 0.3s ease, background 0.3s ease;
+}
+.nav-social svg { width: 18px; height: 18px; }
+.nav-social:hover { opacity: 1; color: var(--gold-deep); background: var(--gold-pale); }
 .nav-toggle { display: none; }
 
 /* ============================================================
@@ -241,6 +249,11 @@ address { font-style: normal; }
 .mobile-menu ul { display: flex; flex-direction: column; gap: 24px; margin-bottom: 42px; }
 .mobile-menu a { font-family: var(--font-display); font-size: 26px; color: var(--ink); }
 .mobile-menu a:hover { color: var(--gold-deep); }
+.mobile-menu__social {
+  display: block; margin-top: 22px;
+  font-family: var(--font-body); font-size: 13px; letter-spacing: 0.06em;
+  color: var(--gold-deep);
+}
 
 /* ============================================================
    01 · HERO — foto da Dra. Alanis + cards flutuantes
