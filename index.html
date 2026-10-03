@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="no-js">
 <head>
+<!--
+  SITE_URL (fonte única da verdade) — domínio oficial, forma punycode/ASCII
+  (obrigatória em URLs — navegadores/crawlers não aceitam "é" literal em DNS):
+
+      https://xn--gomesodontologiaeesttica-ufc.com.br
+
+  Forma legível para humanos (Unicode): gomesodontologiaeestética.com.br
+  Sem "www", sem barra no final. Como o projeto é HTML estático (sem build/
+  bundler), esse valor está hardcoded em cada <meta>/JSON-LD abaixo e também
+  em sitemap.xml e robots.txt — se o domínio mudar de novo, são esses os
+  únicos lugares a atualizar. (Ver README para a lista completa.)
+-->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gomes Odontologia &amp; Estética | Dentista em Boiçucanga - São Sebastião</title>
@@ -8,14 +20,14 @@
 <meta name="keywords" content="dentista Boiçucanga, odontologia Boiçucanga, dentista São Sebastião, odontologia estética Boiçucanga, Gomes Odontologia">
 <meta name="author" content="Gomes Odontologia & Estética">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://www.gomesodontoestetica.com.br/">
+<link rel="canonical" href="https://xn--gomesodontologiaeesttica-ufc.com.br/">
 
 <!-- Open Graph -->
-<meta property="og:type" content="business.business">
+<meta property="og:type" content="website">
 <meta property="og:title" content="Gomes Odontologia & Estética | Dentista em Boiçucanga">
 <meta property="og:description" content="Odontologia moderna e personalizada, com resultados que surpreendem. Clínica no Beira Praia Shopping, Boiçucanga - São Sebastião.">
-<meta property="og:image" content="assets/images/clinic/recepcao-ambiente-real.jpg">
-<meta property="og:url" content="https://www.gomesodontoestetica.com.br/">
+<meta property="og:image" content="https://xn--gomesodontologiaeesttica-ufc.com.br/assets/images/clinic/recepcao-ambiente-real.jpg">
+<meta property="og:url" content="https://xn--gomesodontologiaeesttica-ufc.com.br/">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Gomes Odontologia & Estética">
 
@@ -23,6 +35,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Gomes Odontologia & Estética | Dentista em Boiçucanga">
 <meta name="twitter:description" content="Odontologia moderna e personalizada, com resultados que surpreendem.">
+<meta name="twitter:image" content="https://xn--gomesodontologiaeesttica-ufc.com.br/assets/images/clinic/recepcao-ambiente-real.jpg">
 
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
@@ -35,14 +48,19 @@
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/responsive.css">
 
-<!-- Local Business structured data -->
+<!-- Local Business structured data.
+     TODO: "openingHours" não foi incluído — horário de funcionamento não
+     está confirmado publicamente em nenhuma fonte pesquisada. Pedir à
+     cliente e adicionar como openingHoursSpecification quando confirmado,
+     em vez de inventar um horário. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Dentist",
   "name": "Gomes Odontologia & Estética",
   "alternateName": "Dentista Boiçucanga",
-  "image": "https://www.gomesodontoestetica.com.br/assets/images/clinic/recepcao-ambiente-real.jpg",
+  "image": "https://xn--gomesodontologiaeesttica-ufc.com.br/assets/images/clinic/recepcao-ambiente-real.jpg",
+  "telephone": "+5512996119641",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Av. Walkir Vergani, 614 - Sala 34 A, Beira Praia Shopping",
@@ -52,8 +70,11 @@
     "addressCountry": "BR"
   },
   "areaServed": ["Boiçucanga", "São Sebastião", "Litoral Norte de São Paulo"],
-  "url": "https://www.gomesodontoestetica.com.br/",
-  "sameAs": ["https://www.instagram.com/gomesodontoestetica/"]
+  "url": "https://xn--gomesodontologiaeesttica-ufc.com.br/",
+  "sameAs": [
+    "https://www.instagram.com/gomesodontoestetica/",
+    "https://wa.me/5512996119641"
+  ]
 }
 </script>
 </head>

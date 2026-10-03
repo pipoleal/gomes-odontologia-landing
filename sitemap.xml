@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Site de página única (one-pager) — todas as seções (Tratamentos, Equipe,
+  Depoimentos, Como Chegar etc.) são âncoras dentro do mesmo index.html,
+  então o sitemap lista apenas a URL raiz. Se o site ganhar páginas
+  separadas no futuro, adicione uma <url> por página aqui.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://xn--gomesodontologiaeesttica-ufc.com.br/</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

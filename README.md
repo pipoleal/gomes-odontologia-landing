@@ -154,28 +154,59 @@ Onde ainda não há foto real (Odontopediatria e Harmonização Facial — este 
 ```
 /
 ├── index.html
+├── robots.txt            # aponta pro sitemap, libera tudo pra indexação
+├── sitemap.xml           # site de página única — lista só a URL raiz
 ├── css/
 │   ├── style.css        # estilos base (paleta, tipografia, layout, seções)
 │   └── responsive.css   # breakpoints — mobile tem experiência própria, não só reduzida
 ├── js/
 │   ├── main.js          # config (WhatsApp), header, menu mobile, ano no rodapé
-│   ├── animations.js    # GSAP/ScrollTrigger — parallax, reveals, tilt 3D
-│   └── three-hero.js    # profundidade 3D real (Three.js) na foto do hero
+│   ├── treatments.js    # bloco "Tratamentos em destaque" (array editável)
+│   ├── carousel.js      # carrossel arrastável (Antes/Depois, Depoimentos)
+│   └── animations.js    # GSAP/ScrollTrigger — parallax, reveals, tilt 3D
 ├── assets/
 │   ├── images/
-│   │   └── clinic/        # fotos reais extraídas do Instagram (ver seção 4) + onde salvar as em alta resolução
+│   │   ├── clinic/        # fotos reais da clínica/tratamentos
+│   │   └── team/           # fotos reais da Dra. Alanis (hero, bio, equipe)
 │   └── icons/
 │       └── favicon.svg    # favicon provisório (monograma) — trocar pelo logo oficial
 └── README.md
 ```
 
+> Nota: `three-hero.js` (profundidade 3D via Three.js) existiu numa versão anterior
+> do hero e foi removido quando o hero passou a usar o vídeo de depoimento como
+> visual principal — não procure por ele, é esperado que não exista mais.
+
 ---
 
 ## 7. Performance e acessibilidade
 
-- Three.js carregado via CDN (build `r128`, leve) apenas para a cena do hero; falha graciosamente para uma foto estática se o WebGL não estiver disponível.
-- GSAP + ScrollTrigger para o restante das animações — nenhuma outra biblioteca pesada.
+- GSAP + ScrollTrigger para as animações (reveals, parallax, tilt 3D nos cards) — única biblioteca externa carregada via CDN.
 - `loading="lazy"` em todas as imagens fora do hero.
-- Animações (incluindo a cena 3D) desativadas automaticamente com `prefers-reduced-motion: reduce`.
+- Animações desativadas automaticamente com `prefers-reduced-motion: reduce`.
 - HTML semântico (`header`, `main`, `section`, `address`, `footer`), um único `<h1>`, hierarquia de `<h2>`/`<h3>` respeitada, `alt` descritivo em todas as imagens.
-- Dados estruturados (`schema.org/Dentist`) no `<head>` para SEO local.
+- Dados estruturados (`schema.org/Dentist`) no `<head>` para SEO local — ver seção 8.
+
+---
+
+## 8. Domínio e SEO
+
+**Domínio oficial (desde out/2026):**
+- Forma legível: `gomesodontologiaeestética.com.br`
+- Forma punycode/ASCII (a que realmente vai em URLs): `xn--gomesodontologiaeesttica-ufc.com.br`
+- `SITE_URL` canônico: `https://xn--gomesodontologiaeesttica-ufc.com.br` — **sem** `www`, **sem** barra no final.
+
+**Por que não existe uma variável `SITE_URL` de verdade:** este projeto é HTML/CSS/JS estático, sem bundler/build step — então não tem como uma única variável alimentar `<meta>` tags automaticamente (elas precisam estar no HTML puro para crawlers que não executam JS). Por isso o valor acima está hardcoded nos lugares abaixo. Se o domínio mudar de novo, esses são **todos** os lugares a atualizar:
+
+| Arquivo | Onde |
+|---|---|
+| `index.html` | comentário no topo do `<head>`, `<link rel="canonical">`, `og:url`, `og:image`, `twitter:image`, `og:site_name` não muda, JSON-LD (`image`, `url`) |
+| `sitemap.xml` | `<loc>` |
+| `robots.txt` | linha `Sitemap:` |
+
+Se no futuro o site crescer (mais páginas, formulário com backend, etc.), vale migrar para uma ferramenta com build step (ex.: um gerador simples de HTML a partir de um `site.config.json`) para centralizar isso de verdade — hoje seria complexidade desnecessária para 3 arquivos.
+
+**Checklist de verificação rápida depois de qualquer mudança de domínio:**
+- [ ] `index.html`: canonical, og:url, og:image (absoluta), twitter:image, JSON-LD `url`/`image`
+- [ ] `sitemap.xml` e `robots.txt`
+- [ ] Links de WhatsApp (`js/main.js` → `CONFIG.whatsappNumber`), Instagram e "Como Chegar" continuam corretos e abrem em nova aba (`target="_blank" rel="noopener"`) — isso é independente do domínio do site e já está conferido.
