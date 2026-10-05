@@ -119,6 +119,32 @@
   .status-msg.error { display: block; background: #FBE4E4; color: #A33A3A; }
   .status-msg.loading { display: block; background: var(--gold-pale); color: var(--gold-deep); }
   .empty-note { color: var(--ink-faint); font-size: 13.5px; margin-top: 14px; }
+  .photo-preview {
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 1px solid var(--line);
+    background: var(--cream-deep, #F1EDE7);
+    display: none;
+    margin-top: 4px;
+  }
+  .photo-preview.has-image { display: block; }
+  .photo-actions { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; align-items: center; }
+  .photo-actions input[type="file"] { font-size: 13px; max-width: 100%; }
+  .remove-photo-btn {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--gold-deep);
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    display: none;
+  }
+  .remove-photo-btn.visible { display: inline-block; }
   footer.page-foot { text-align: center; color: var(--ink-faint); font-size: 12.5px; margin-top: 12px; }
   footer.page-foot a { color: var(--gold-deep); }
 
@@ -188,6 +214,14 @@
         <input type="url" id="annLinkUrl" placeholder="https://wa.me/...">
       </div>
     </div>
+
+    <label>Foto do anúncio (opcional)</label>
+    <p class="hint" style="margin:0 0 10px;">Uma foto real da clínica ou do tratamento deixa o aviso com cara de anúncio próprio da clínica, não de pop-up genérico. Qualquer formato (JPG, PNG) e tamanho — é redimensionada automaticamente.</p>
+    <img id="annImagePreview" class="photo-preview" alt="Pré-visualização da foto do anúncio">
+    <div class="photo-actions">
+      <input type="file" id="annImageInput" accept="image/*">
+      <button type="button" class="remove-photo-btn" id="removeImageBtn">Remover foto</button>
+    </div>
   </section>
 
   <section class="card">
@@ -233,6 +267,73 @@
   const addSpecialBtn = document.getElementById('addSpecialBtn');
   const saveBtn = document.getElementById('saveBtn');
   const statusMsg = document.getElementById('statusMsg');
+
+  const annImageInput = document.getElementById('annImageInput');
+  const annImagePreview = document.getElementById('annImagePreview');
+  const removeImageBtn = document.getElementById('removeImageBtn');
+
+  // currentImage reflete o que está salvo (path + versão pra cache-busting);
+  // pendingImageBase64/pendingImageRemoved só existem entre escolher uma foto
+  // nova (ou remover) e o próximo clique em "Salvar".
+  let currentImage = { path: '', version: 0 };
+  let pendingImageBase64 = null;
+  let pendingImageRemoved = false;
+
+  function setImagePreview(url) {
+    annImagePreview.src = url;
+    annImagePreview.classList.add('has-image');
+    removeImageBtn.classList.add('visible');
+  }
+
+  function clearImagePreview() {
+    annImagePreview.removeAttribute('src');
+    annImagePreview.classList.remove('has-image');
+    removeImageBtn.classList.remove('visible');
+  }
+
+  function resizeImageFile(file, maxWidth, quality) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = () => reject(new Error('Erro ao ler o arquivo.'));
+      reader.onload = () => {
+        const img = new Image();
+        img.onerror = () => reject(new Error('Arquivo não é uma imagem válida.'));
+        img.onload = () => {
+          const scale = Math.min(1, maxWidth / img.width);
+          const w = Math.round(img.width * scale);
+          const h = Math.round(img.height * scale);
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  annImageInput.addEventListener('change', () => {
+    const file = annImageInput.files[0];
+    if (!file) return;
+    resizeImageFile(file, 1100, 0.82)
+      .then((dataUrl) => {
+        pendingImageBase64 = dataUrl.split(',')[1];
+        pendingImageRemoved = false;
+        setImagePreview(dataUrl);
+      })
+      .catch(() => {
+        showMsg(statusMsg, 'error', 'Não foi possível processar essa imagem. Tente outro arquivo.');
+      });
+  });
+
+  removeImageBtn.addEventListener('click', () => {
+    pendingImageBase64 = null;
+    pendingImageRemoved = true;
+    annImageInput.value = '';
+    clearImagePreview();
+  });
 
   function showMsg(el, type, message) {
     el.className = 'status-msg ' + type;
@@ -336,6 +437,16 @@
         document.getElementById('annLinkLabel').value = ann.linkLabel || '';
         document.getElementById('annLinkUrl').value = ann.linkUrl || '';
 
+        pendingImageBase64 = null;
+        pendingImageRemoved = false;
+        if (ann.image) {
+          currentImage = { path: ann.image, version: ann.imageVersion || 0 };
+          setImagePreview('/' + ann.image + (ann.imageVersion ? '?v=' + ann.imageVersion : ''));
+        } else {
+          currentImage = { path: '', version: 0 };
+          clearImagePreview();
+        }
+
         const specialHours = Array.isArray(data.specialHours) ? data.specialHours : [];
         specialHoursList.innerHTML = '';
         specialHours.forEach((entry) => specialHoursList.appendChild(createSpecialRow(entry)));
@@ -365,6 +476,8 @@
         message: document.getElementById('annMessage').value.trim(),
         linkLabel: document.getElementById('annLinkLabel').value.trim(),
         linkUrl: document.getElementById('annLinkUrl').value.trim(),
+        image: currentImage.path,
+        imageVersion: currentImage.version,
       },
       specialHours,
     };
@@ -373,18 +486,33 @@
   saveBtn.addEventListener('click', () => {
     if (!sessionPassword) return;
     const content = buildContent();
+    const body = { password: sessionPassword, content };
+    if (pendingImageBase64) {
+      body.image = pendingImageBase64;
+    } else if (pendingImageRemoved) {
+      body.image = '__remove__';
+    }
+
     saveBtn.disabled = true;
-    showMsg(statusMsg, 'loading', 'Salvando...');
+    showMsg(statusMsg, 'loading', pendingImageBase64 ? 'Enviando foto e salvando...' : 'Salvando...');
 
     fetch('/api/save-content', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: sessionPassword, content }),
+      body: JSON.stringify(body),
     })
       .then((r) => r.json().then((data) => ({ ok: r.ok, data })))
       .then(({ ok, data }) => {
         saveBtn.disabled = false;
         if (ok && data.success) {
+          if (data.image) {
+            currentImage = { path: data.image, version: data.imageVersion || 0 };
+            setImagePreview('/' + data.image + '?v=' + currentImage.version);
+          } else if (pendingImageRemoved) {
+            currentImage = { path: '', version: 0 };
+          }
+          pendingImageBase64 = null;
+          pendingImageRemoved = false;
           showMsg(statusMsg, 'success', 'Salvo! O site vai atualizar em 1 a 2 minutos.');
         } else {
           showMsg(statusMsg, 'error', data.error || 'Erro ao salvar. Tente novamente.');

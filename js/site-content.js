@@ -26,12 +26,19 @@
       ? `<a href="${escapeAttr(announcement.linkUrl)}" class="btn btn--gold announcement-card__link" target="_blank" rel="noopener">${escapeHtml(announcement.linkLabel)}</a>`
       : '';
 
+    const imageHtml = announcement.image
+      ? `<img class="announcement-card__image" src="${escapeAttr('/' + announcement.image + (announcement.imageVersion ? '?v=' + announcement.imageVersion : ''))}" alt="">`
+      : '';
+
     overlay.innerHTML = `
-      <div class="announcement-card">
+      <div class="announcement-card${announcement.image ? ' has-image' : ''}">
         <button type="button" class="announcement-card__close" aria-label="Fechar aviso">&times;</button>
-        ${announcement.title ? `<h3>${escapeHtml(announcement.title)}</h3>` : ''}
-        <p>${escapeHtml(announcement.message)}</p>
-        ${linkHtml}
+        ${imageHtml}
+        <div class="announcement-card__body">
+          ${announcement.title ? `<h3>${escapeHtml(announcement.title)}</h3>` : ''}
+          <p>${escapeHtml(announcement.message)}</p>
+          ${linkHtml}
+        </div>
       </div>
     `;
 

@@ -224,7 +224,7 @@ Se no futuro o site crescer (mais páginas, formulário com backend, etc.), vale
 
 Painel simples em `/admin.html` para 1–2 funcionárias editarem, sem precisar tocar em código:
 - **Tela de login:** pede a senha do painel antes de mostrar qualquer campo ou conteúdo atual. Quem não souber a senha não vê nada além do campo de senha.
-- **Anúncio (pop-up):** aviso que aparece sobre a tela na primeira visita (não é um banner fixo), com título, mensagem e um botão opcional com link (ex.: WhatsApp de uma promoção). Pode ser ativado/desativado a qualquer momento.
+- **Anúncio (pop-up):** aviso que aparece sobre a tela na primeira visita (não é um banner fixo), com título, mensagem, uma foto opcional e um botão opcional com link (ex.: WhatsApp de uma promoção). Pode ser ativado/desativado a qualquer momento. A foto é enviada direto do computador/celular de quem está editando (sem precisar de link externo) — o navegador redimensiona ela antes de enviar, e ela é salva em `assets/images/announcements/anuncio.jpg` no mesmo commit do conteúdo.
 - **Horários especiais:** datas com horário diferente do normal (feriados, etc.) ou marcadas como "fechado". Aparece como um aviso perto da seção "Como Chegar" nos 7 dias antes da data cadastrada.
 
 **Como funciona por baixo dos panos (sem banco de dados, sem custo extra):**
