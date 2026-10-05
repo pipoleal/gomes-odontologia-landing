@@ -581,7 +581,9 @@ address { font-style: normal; }
 .announcement-card__image {
   display: block;
   width: 100%;
-  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: var(--gold-pale);
 }
 .announcement-card__body { padding: 44px 36px 36px; }
 .announcement-card.has-image .announcement-card__body { padding-top: 26px; }
