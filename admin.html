@@ -49,7 +49,7 @@
   label { display: block; font-size: 13px; font-weight: 600; color: var(--ink-soft); margin: 16px 0 6px; }
   label.checkbox-label { display: flex; align-items: center; gap: 8px; font-weight: 600; margin-top: 0; }
   label.checkbox-label input { width: auto; margin: 0; }
-  input[type="text"], input[type="url"], input[type="date"], input[type="time"], textarea {
+  input[type="text"], input[type="url"], input[type="date"], input[type="time"], input[type="password"], textarea {
     width: 100%;
     padding: 10px 12px;
     border: 1px solid var(--line);
@@ -83,7 +83,7 @@
   .special-row .remove-btn:hover { color: var(--gold-deep); }
   .special-row .grid-2 { grid-template-columns: 1fr 1fr; }
   .special-row .closed-row { margin-top: 12px; }
-  .add-btn, .save-btn, .logout-btn {
+  .add-btn, .save-btn, .login-btn {
     font-family: var(--font-body);
     font-weight: 600;
     font-size: 13.5px;
@@ -99,30 +99,15 @@
     color: var(--gold-deep);
   }
   .add-btn:hover { background: var(--gold-pale); }
-  .save-bar {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex-wrap: wrap;
-    margin-top: 8px;
-  }
-  .save-bar input[type="password"] {
-    flex: 1;
-    min-width: 180px;
-    padding: 11px 14px;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    font-size: 14.5px;
-    background: var(--cream);
-  }
-  .save-btn {
+  .save-bar { margin-top: 8px; }
+  .save-btn, .login-btn {
     padding: 12px 26px;
     background: var(--gold);
     color: #fff;
     border-color: var(--gold);
   }
-  .save-btn:hover { background: var(--gold-deep); }
-  .save-btn:disabled { opacity: 0.6; cursor: wait; }
+  .save-btn:hover, .login-btn:hover { background: var(--gold-deep); }
+  .save-btn:disabled, .login-btn:disabled { opacity: 0.6; cursor: wait; }
   .status-msg {
     margin-top: 16px;
     padding: 12px 16px;
@@ -136,10 +121,46 @@
   .empty-note { color: var(--ink-faint); font-size: 13.5px; margin-top: 14px; }
   footer.page-foot { text-align: center; color: var(--ink-faint); font-size: 12.5px; margin-top: 12px; }
   footer.page-foot a { color: var(--gold-deep); }
+
+  /* Tela de login */
+  .login-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .login-card {
+    background: var(--cream-card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 36px 32px;
+    max-width: 360px;
+    width: 100%;
+    text-align: center;
+  }
+  .login-card h1 { font-size: 26px; margin-bottom: 6px; }
+  .login-card p { color: var(--ink-faint); font-size: 13.5px; margin: 0 0 22px; }
+  .login-card input { margin-bottom: 16px; text-align: center; }
+  .login-card .login-btn { width: 100%; }
+  .login-card .status-msg { text-align: left; }
 </style>
 </head>
 <body>
-<div class="wrap">
+
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <h1>Painel Admin</h1>
+    <p>Gomes Odontologia &amp; Estética</p>
+    <form id="loginForm" autocomplete="off">
+      <input type="password" id="loginPassword" placeholder="Senha do painel" autocomplete="off" required>
+      <button type="submit" class="login-btn" id="loginBtn">Entrar</button>
+    </form>
+    <div class="status-msg" id="loginStatus"></div>
+  </div>
+</div>
+
+<div class="wrap" id="adminContent" hidden>
   <header class="page-head">
     <h1>Painel Admin</h1>
     <p>Gomes Odontologia &amp; Estética — avisos e horários especiais do site</p>
@@ -180,9 +201,8 @@
 
   <section class="card">
     <h2>Salvar alterações</h2>
-    <p class="hint">Digite a senha do painel e clique em salvar. O site atualiza automaticamente em 1–2 minutos.</p>
+    <p class="hint">Clique em salvar. O site atualiza automaticamente em 1–2 minutos.</p>
     <div class="save-bar">
-      <input type="password" id="adminPassword" placeholder="Senha do painel" autocomplete="off">
       <button type="button" class="save-btn" id="saveBtn">Salvar</button>
     </div>
     <div class="status-msg" id="statusMsg"></div>
@@ -197,12 +217,59 @@
 (function () {
   'use strict';
 
+  // Mantida só na memória desta aba — nunca em localStorage/sessionStorage/cookies,
+  // nunca em console.log, nunca em query string (sempre POST com corpo JSON).
+  let sessionPassword = null;
+
+  const loginScreen = document.getElementById('loginScreen');
+  const loginForm = document.getElementById('loginForm');
+  const loginPasswordInput = document.getElementById('loginPassword');
+  const loginBtn = document.getElementById('loginBtn');
+  const loginStatus = document.getElementById('loginStatus');
+  const adminContent = document.getElementById('adminContent');
+
   const specialHoursList = document.getElementById('specialHoursList');
   const emptyNote = document.getElementById('emptyNote');
   const addSpecialBtn = document.getElementById('addSpecialBtn');
   const saveBtn = document.getElementById('saveBtn');
   const statusMsg = document.getElementById('statusMsg');
-  const adminPasswordInput = document.getElementById('adminPassword');
+
+  function showMsg(el, type, message) {
+    el.className = 'status-msg ' + type;
+    el.textContent = message;
+  }
+
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const password = loginPasswordInput.value;
+    if (!password) return;
+
+    loginBtn.disabled = true;
+    showMsg(loginStatus, 'loading', 'Verificando...');
+
+    fetch('/api/verify-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password }),
+    })
+      .then((r) => r.json().then((data) => ({ ok: r.ok, data })))
+      .then(({ ok, data }) => {
+        loginBtn.disabled = false;
+        if (ok && data.success) {
+          sessionPassword = password;
+          loginPasswordInput.value = '';
+          loginScreen.remove();
+          adminContent.hidden = false;
+          loadContent();
+        } else {
+          showMsg(loginStatus, 'error', data.error || 'Senha incorreta.');
+        }
+      })
+      .catch(() => {
+        loginBtn.disabled = false;
+        showMsg(loginStatus, 'error', 'Erro de conexão. Tente novamente.');
+      });
+  });
 
   function createSpecialRow(entry) {
     entry = entry || { date: '', label: '', opens: '', closes: '', closed: false };
@@ -275,13 +342,8 @@
         toggleEmptyNote();
       })
       .catch(() => {
-        showStatus('error', 'Não foi possível carregar o conteúdo atual. Tente recarregar a página.');
+        showMsg(statusMsg, 'error', 'Não foi possível carregar o conteúdo atual. Tente recarregar a página.');
       });
-  }
-
-  function showStatus(type, message) {
-    statusMsg.className = 'status-msg ' + type;
-    statusMsg.textContent = message;
   }
 
   function buildContent() {
@@ -309,36 +371,32 @@
   }
 
   saveBtn.addEventListener('click', () => {
-    const password = adminPasswordInput.value;
-    if (!password) {
-      showStatus('error', 'Digite a senha do painel antes de salvar.');
-      return;
-    }
+    if (!sessionPassword) return;
     const content = buildContent();
     saveBtn.disabled = true;
-    showStatus('loading', 'Salvando...');
+    showMsg(statusMsg, 'loading', 'Salvando...');
 
     fetch('/api/save-content', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password, content }),
+      body: JSON.stringify({ password: sessionPassword, content }),
     })
       .then((r) => r.json().then((data) => ({ ok: r.ok, data })))
       .then(({ ok, data }) => {
         saveBtn.disabled = false;
         if (ok && data.success) {
-          showStatus('success', 'Salvo! O site vai atualizar em 1 a 2 minutos.');
+          showMsg(statusMsg, 'success', 'Salvo! O site vai atualizar em 1 a 2 minutos.');
         } else {
-          showStatus('error', data.error || 'Erro ao salvar. Tente novamente.');
+          showMsg(statusMsg, 'error', data.error || 'Erro ao salvar. Tente novamente.');
         }
       })
       .catch(() => {
         saveBtn.disabled = false;
-        showStatus('error', 'Erro de conexão. Verifique a internet e tente novamente.');
+        showMsg(statusMsg, 'error', 'Erro de conexão. Verifique a internet e tente novamente.');
       });
   });
 
-  loadContent();
+  loginPasswordInput.focus();
 })();
 </script>
 </body>

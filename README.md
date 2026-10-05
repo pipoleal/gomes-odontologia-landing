@@ -167,7 +167,8 @@ Onde ainda não há foto real (Odontopediatria e Harmonização Facial — este 
 │   └── site-content.js  # lê data/site-content.json e mostra anúncio/horário especial
 ├── admin.html            # painel admin (anúncio + horários especiais) — ver seção 9
 ├── api/
-│   └── save-content.js  # Vercel Serverless Function usada pelo admin.html pra salvar
+│   ├── verify-password.js # Vercel Serverless Function — confere a senha da tela de login
+│   └── save-content.js    # Vercel Serverless Function usada pelo admin.html pra salvar
 ├── data/
 │   └── site-content.json # conteúdo editável pelo painel (anúncio, horários especiais)
 ├── assets/
@@ -222,24 +223,28 @@ Se no futuro o site crescer (mais páginas, formulário com backend, etc.), vale
 ## 9. Painel admin (anúncio + horários especiais)
 
 Painel simples em `/admin.html` para 1–2 funcionárias editarem, sem precisar tocar em código:
+- **Tela de login:** pede a senha do painel antes de mostrar qualquer campo ou conteúdo atual. Quem não souber a senha não vê nada além do campo de senha.
 - **Anúncio (pop-up):** aviso que aparece sobre a tela na primeira visita (não é um banner fixo), com título, mensagem e um botão opcional com link (ex.: WhatsApp de uma promoção). Pode ser ativado/desativado a qualquer momento.
 - **Horários especiais:** datas com horário diferente do normal (feriados, etc.) ou marcadas como "fechado". Aparece como um aviso perto da seção "Como Chegar" nos 7 dias antes da data cadastrada.
 
 **Como funciona por baixo dos panos (sem banco de dados, sem custo extra):**
-1. O conteúdo fica em `data/site-content.json`, lido direto pelo site (`js/site-content.js`) e pelo painel (`admin.html`).
-2. Ao clicar em "Salvar" no painel, o navegador envia `{ senha, conteúdo }` pra função serverless `api/save-content.js`.
-3. Essa função confere a senha e, se estiver certa, grava o novo `data/site-content.json` direto no GitHub via API (usando um token).
-4. Esse commit no GitHub dispara o deploy automático que já está configurado na Vercel — o site atualiza sozinho em 1–2 minutos, sem precisar rodar nada manualmente.
+1. O conteúdo fica em `data/site-content.json`, lido direto pelo site (`js/site-content.js`) e, depois do login, pelo painel (`admin.html`).
+2. Ao digitar a senha na tela de login, o navegador envia `{ senha }` (por POST, nunca na URL) pra função serverless `api/verify-password.js`, que só confere a senha — não grava nada. Se estiver certa, o painel libera a edição e guarda a senha **só na memória da aba** (nunca em localStorage, sessionStorage, cookie ou console) para usar depois no "Salvar", sem pedir de novo.
+3. Ao clicar em "Salvar", o navegador envia `{ senha, conteúdo }` (também por POST) pra função serverless `api/save-content.js`.
+4. Essa função confere a senha de novo e, se estiver certa, grava o novo `data/site-content.json` direto no GitHub via API (usando um token).
+5. Esse commit no GitHub dispara o deploy automático que já está configurado na Vercel — o site atualiza sozinho em 1–2 minutos, sem precisar rodar nada manualmente.
 
-**Configuração obrigatória (só funciona depois disso — feita uma única vez):**
+A senha nunca aparece na URL, no histórico do navegador ou em qualquer `console.log` — só viaja dentro do corpo de requisições POST, que o próprio navegador não registra em lugar nenhum visível (histórico, favoritos, etc.).
 
-No painel da Vercel → projeto `gomes-odontologia-landing` → **Settings → Environment Variables**, criar duas variáveis (nunca commitar essas senhas/tokens no repositório nem colar em chat):
+**Configuração das variáveis de ambiente na Vercel:**
 
-| Variável | O que é | Como gerar |
+No painel da Vercel → projeto `gomes-odontologia-landing` → **Settings → Environment Variables** (nunca commitar essas senhas/tokens no repositório nem colar em chat):
+
+| Variável | O que é | Situação |
 |---|---|---|
-| `ADMIN_PASSWORD` | A senha que as funcionárias vão digitar no painel pra salvar. | Qualquer senha forte, escolhida por vocês. |
-| `GITHUB_TOKEN` | Um token do GitHub que permite ao painel salvar o arquivo de conteúdo. | GitHub → **Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token**. Em "Repository access", escolher **Only select repositories** → `pipoleal/gomes-odontologia-landing`. Em "Permissions", dar **Contents: Read and write**. Copiar o token gerado (começa com `github_pat_...`) e colar como valor da variável `GITHUB_TOKEN` na Vercel. |
+| `ADMIN_PASSWORD` | A senha do painel (login e salvar usam a mesma). | ✅ Já configurada (Production, Preview e Development) via CLI. Pra trocar a senha, edite essa variável direto no dashboard da Vercel e faça um novo deploy. |
+| `GITHUB_TOKEN` | Um token do GitHub que permite ao painel salvar o arquivo de conteúdo. | ⚠️ **Ainda falta configurar.** GitHub → **Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token**. Em "Repository access", escolher **Only select repositories** → `pipoleal/gomes-odontologia-landing`. Em "Permissions", dar **Contents: Read and write**. Copiar o token gerado (começa com `github_pat_...`) e colar como valor da variável `GITHUB_TOKEN` na Vercel. |
 
-Depois de criar as duas variáveis, fazer um novo deploy (ou aguardar o próximo push) para elas entrarem em vigor.
+Depois de configurar o `GITHUB_TOKEN`, fazer um novo deploy (ou aguardar o próximo push) para ele entrar em vigor.
 
-**Acesso ao painel:** `https://xn--gomesodontologiaeesttica-ufc.com.br/admin.html` (não aparece no menu do site nem é indexado pelo Google — `robots.txt` bloqueia e a página tem `<meta name="robots" content="noindex, nofollow">`). Isso não é uma segurança forte (qualquer pessoa com o link pode abrir a tela do painel), mas **só quem souber a senha consegue salvar** — a senha é checada no servidor, nunca fica salva no navegador.
+**Acesso ao painel:** `https://xn--gomesodontologiaeesttica-ufc.com.br/admin.html` (não aparece no menu do site nem é indexado pelo Google — `robots.txt` bloqueia e a página tem `<meta name="robots" content="noindex, nofollow">`). Quem abrir o link sem saber a senha só vê a tela de login — nenhum campo, nenhum conteúdo atual é exibido antes da senha ser confirmada pelo servidor.
