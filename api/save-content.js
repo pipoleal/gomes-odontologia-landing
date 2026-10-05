@@ -29,9 +29,10 @@ module.exports = async (req, res) => {
   const githubToken = process.env.GITHUB_TOKEN;
 
   if (!adminPassword || !githubToken) {
+    const missing = [!adminPassword && 'ADMIN_PASSWORD', !githubToken && 'GITHUB_TOKEN'].filter(Boolean).join(', ');
     res.status(500).json({
       success: false,
-      error: 'Servidor não configurado: faltam variáveis de ambiente (ADMIN_PASSWORD / GITHUB_TOKEN) no projeto da Vercel.',
+      error: `Servidor não configurado: falta a variável de ambiente ${missing} no projeto da Vercel.`,
     });
     return;
   }
