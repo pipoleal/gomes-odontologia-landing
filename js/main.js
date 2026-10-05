@@ -96,11 +96,43 @@
     mq.addEventListener('change', apply);
   }
 
+  /* ----------------------------------------------------------
+     Vídeos sob demanda — <video data-lazy-src="..."> só busca e toca
+     quando a seção entra na tela (evita baixar vídeo pesado na carga
+     inicial da página). Reutilizável para qualquer vídeo futuro.
+     ---------------------------------------------------------- */
+  function wireLazyVideos() {
+    const videos = document.querySelectorAll('video[data-lazy-src]');
+    if (!videos.length) return;
+
+    const load = (video) => {
+      video.src = video.dataset.lazySrc;
+      video.load();
+      video.play().catch(() => {}); // autoplay pode ser bloqueado em alguns navegadores — ok, fica parado no poster
+    };
+
+    if (!('IntersectionObserver' in window)) {
+      videos.forEach(load);
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        load(entry.target);
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '200px 0px' });
+
+    videos.forEach((video) => observer.observe(video));
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     wireWhatsAppLinks();
     wireHeaderScroll();
     wireMobileMenu();
     setCurrentYear();
     wireReducedMotion();
+    wireLazyVideos();
   });
 })();

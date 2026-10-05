@@ -37,8 +37,14 @@
 <meta name="twitter:description" content="Odontologia moderna e personalizada, com resultados que surpreendem.">
 <meta name="twitter:image" content="https://xn--gomesodontologiaeesttica-ufc.com.br/assets/images/clinic/recepcao-ambiente-real.jpg">
 
-<!-- Favicon -->
-<link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+<!-- Favicon / ícones (gerados a partir da logo oficial) -->
+<link rel="icon" href="assets/icons/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="assets/icons/favicon-48x48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#C1875C">
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,11 +54,7 @@
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/responsive.css">
 
-<!-- Local Business structured data.
-     TODO: "openingHours" não foi incluído — horário de funcionamento não
-     está confirmado publicamente em nenhuma fonte pesquisada. Pedir à
-     cliente e adicionar como openingHoursSpecification quando confirmado,
-     em vez de inventar um horário. -->
+<!-- Local Business structured data -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -61,6 +63,20 @@
   "alternateName": "Dentista Boiçucanga",
   "image": "https://xn--gomesodontologiaeesttica-ufc.com.br/assets/images/clinic/recepcao-ambiente-real.jpg",
   "telephone": "+5512996119641",
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "09:00",
+      "closes": "19:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Saturday"],
+      "opens": "09:00",
+      "closes": "13:00"
+    }
+  ],
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Av. Walkir Vergani, 614 - Sala 34 A, Beira Praia Shopping",
@@ -524,7 +540,10 @@
       </div>
       <div class="clinic-tour__item reveal-up" data-reveal>
         <!-- Vídeo real da clínica (tour pela fachada/recepção), em loop mudo. -->
-        <video src="assets/images/clinic/clinica-video-galeria.mp4" poster="assets/images/clinic/clinica-video-poster.jpg" autoplay muted loop playsinline aria-label="Vídeo real da Gomes Odontologia & Estética"></video>
+        <!-- Carregamento sob demanda: sem src/autoplay direto — js/main.js (wireLazyVideos)
+             só busca e toca o vídeo quando esta seção entra na tela (IntersectionObserver),
+             evitando baixar ~7MB logo na carga da página. -->
+        <video poster="assets/images/clinic/clinica-video-poster.jpg" muted loop playsinline preload="none" data-lazy-src="assets/images/clinic/clinica-video-galeria.mp4" aria-label="Vídeo real da Gomes Odontologia & Estética"></video>
       </div>
     </div>
   </section>
