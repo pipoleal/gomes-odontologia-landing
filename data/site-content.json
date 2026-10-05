@@ -1,9 +1,9 @@
 {
   "announcement": {
-    "enabled": false,
-    "title": "",
-    "message": "",
-    "linkLabel": "",
+    "enabled": true,
+    "title": "promo teste",
+    "message": "teste",
+    "linkLabel": "tette",
     "linkUrl": ""
   },
   "specialHours": []
