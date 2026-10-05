@@ -163,13 +163,19 @@ Onde ainda não há foto real (Odontopediatria e Harmonização Facial — este 
 │   ├── main.js          # config (WhatsApp), header, menu mobile, ano no rodapé
 │   ├── treatments.js    # bloco "Tratamentos em destaque" (array editável)
 │   ├── carousel.js      # carrossel arrastável (Antes/Depois, Depoimentos)
-│   └── animations.js    # GSAP/ScrollTrigger — parallax, reveals, tilt 3D
+│   ├── animations.js    # GSAP/ScrollTrigger — parallax, reveals, tilt 3D
+│   └── site-content.js  # lê data/site-content.json e mostra anúncio/horário especial
+├── admin.html            # painel admin (anúncio + horários especiais) — ver seção 9
+├── api/
+│   └── save-content.js  # Vercel Serverless Function usada pelo admin.html pra salvar
+├── data/
+│   └── site-content.json # conteúdo editável pelo painel (anúncio, horários especiais)
 ├── assets/
 │   ├── images/
 │   │   ├── clinic/        # fotos reais da clínica/tratamentos
 │   │   └── team/           # fotos reais da Dra. Alanis (hero, bio, equipe)
 │   └── icons/
-│       └── favicon.svg    # favicon provisório (monograma) — trocar pelo logo oficial
+│       └── favicon.ico, apple-touch-icon.png, etc.  # gerados a partir do logo oficial
 └── README.md
 ```
 
@@ -210,3 +216,30 @@ Se no futuro o site crescer (mais páginas, formulário com backend, etc.), vale
 - [ ] `index.html`: canonical, og:url, og:image (absoluta), twitter:image, JSON-LD `url`/`image`
 - [ ] `sitemap.xml` e `robots.txt`
 - [ ] Links de WhatsApp (`js/main.js` → `CONFIG.whatsappNumber`), Instagram e "Como Chegar" continuam corretos e abrem em nova aba (`target="_blank" rel="noopener"`) — isso é independente do domínio do site e já está conferido.
+
+---
+
+## 9. Painel admin (anúncio + horários especiais)
+
+Painel simples em `/admin.html` para 1–2 funcionárias editarem, sem precisar tocar em código:
+- **Anúncio (pop-up):** aviso que aparece sobre a tela na primeira visita (não é um banner fixo), com título, mensagem e um botão opcional com link (ex.: WhatsApp de uma promoção). Pode ser ativado/desativado a qualquer momento.
+- **Horários especiais:** datas com horário diferente do normal (feriados, etc.) ou marcadas como "fechado". Aparece como um aviso perto da seção "Como Chegar" nos 7 dias antes da data cadastrada.
+
+**Como funciona por baixo dos panos (sem banco de dados, sem custo extra):**
+1. O conteúdo fica em `data/site-content.json`, lido direto pelo site (`js/site-content.js`) e pelo painel (`admin.html`).
+2. Ao clicar em "Salvar" no painel, o navegador envia `{ senha, conteúdo }` pra função serverless `api/save-content.js`.
+3. Essa função confere a senha e, se estiver certa, grava o novo `data/site-content.json` direto no GitHub via API (usando um token).
+4. Esse commit no GitHub dispara o deploy automático que já está configurado na Vercel — o site atualiza sozinho em 1–2 minutos, sem precisar rodar nada manualmente.
+
+**Configuração obrigatória (só funciona depois disso — feita uma única vez):**
+
+No painel da Vercel → projeto `gomes-odontologia-landing` → **Settings → Environment Variables**, criar duas variáveis (nunca commitar essas senhas/tokens no repositório nem colar em chat):
+
+| Variável | O que é | Como gerar |
+|---|---|---|
+| `ADMIN_PASSWORD` | A senha que as funcionárias vão digitar no painel pra salvar. | Qualquer senha forte, escolhida por vocês. |
+| `GITHUB_TOKEN` | Um token do GitHub que permite ao painel salvar o arquivo de conteúdo. | GitHub → **Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token**. Em "Repository access", escolher **Only select repositories** → `pipoleal/gomes-odontologia-landing`. Em "Permissions", dar **Contents: Read and write**. Copiar o token gerado (começa com `github_pat_...`) e colar como valor da variável `GITHUB_TOKEN` na Vercel. |
+
+Depois de criar as duas variáveis, fazer um novo deploy (ou aguardar o próximo push) para elas entrarem em vigor.
+
+**Acesso ao painel:** `https://xn--gomesodontologiaeesttica-ufc.com.br/admin.html` (não aparece no menu do site nem é indexado pelo Google — `robots.txt` bloqueia e a página tem `<meta name="robots" content="noindex, nofollow">`). Isso não é uma segurança forte (qualquer pessoa com o link pode abrir a tela do painel), mas **só quem souber a senha consegue salvar** — a senha é checada no servidor, nunca fica salva no navegador.

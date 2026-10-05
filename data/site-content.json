@@ -1,0 +1,10 @@
+{
+  "announcement": {
+    "enabled": false,
+    "title": "",
+    "message": "",
+    "linkLabel": "",
+    "linkUrl": ""
+  },
+  "specialHours": []
+}
