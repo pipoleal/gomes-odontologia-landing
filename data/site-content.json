@@ -1,4 +1,24 @@
 {
-  "announcements": [],
+  "announcements": [
+    {
+      "id": "ann-test1",
+      "active": true,
+      "badge": "Teste",
+      "title": "Anuncio de teste",
+      "message": "Mensagem de teste do sistema novo.",
+      "image": "assets/images/announcements/ann-test1.jpg",
+      "imageAlt": "foto de teste",
+      "imageVersion": 1791334890208,
+      "buttonText": "Chamar no WhatsApp",
+      "buttonType": "whatsapp",
+      "whatsappMessage": "Ola, teste!",
+      "linkUrl": "",
+      "startDate": "",
+      "endDate": "",
+      "priority": 1,
+      "delaySeconds": 0,
+      "cooldownDays": 0
+    }
+  ],
   "specialHours": []
 }
