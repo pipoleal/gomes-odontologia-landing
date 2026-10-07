@@ -12,6 +12,7 @@
   :root {
     --cream: #FBF9F6;
     --cream-card: #FFFFFF;
+    --cream-deep: #F1EDE7;
     --ink: #22252A;
     --ink-soft: #52565C;
     --ink-faint: #82868C;
@@ -20,6 +21,7 @@
     --gold-deep: #93613C;
     --chumbo: #1B1D20;
     --line: rgba(193, 135, 92, 0.24);
+    --error: #A33A3A;
     --font-display: 'Cormorant Garamond', Georgia, serif;
     --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
@@ -33,7 +35,7 @@
     line-height: 1.5;
   }
   h1, h2 { font-family: var(--font-display); font-weight: 500; margin: 0 0 6px; color: var(--ink); }
-  .wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 48px 24px 80px; }
   header.page-head { margin-bottom: 36px; }
   header.page-head h1 { font-size: 30px; }
   header.page-head p { color: var(--ink-faint); margin: 4px 0 0; font-size: 14px; }
@@ -49,7 +51,8 @@
   label { display: block; font-size: 13px; font-weight: 600; color: var(--ink-soft); margin: 16px 0 6px; }
   label.checkbox-label { display: flex; align-items: center; gap: 8px; font-weight: 600; margin-top: 0; }
   label.checkbox-label input { width: auto; margin: 0; }
-  input[type="text"], input[type="url"], input[type="date"], input[type="time"], input[type="password"], textarea {
+  input[type="text"], input[type="url"], input[type="date"], input[type="time"],
+  input[type="password"], input[type="number"], select, textarea {
     width: 100%;
     padding: 10px 12px;
     border: 1px solid var(--line);
@@ -59,17 +62,28 @@
     color: var(--ink);
     background: var(--cream);
   }
-  input:focus, textarea:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
-  textarea { resize: vertical; min-height: 80px; }
+  input:focus, textarea:focus, select:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+  textarea { resize: vertical; min-height: 70px; }
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .special-row {
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .field-row { margin-bottom: 4px; }
+  .char-counter { display: block; text-align: right; font-size: 11.5px; color: var(--ink-faint); margin-top: 4px; }
+  .char-counter.is-over { color: var(--error); font-weight: 600; }
+  .error-text { display: none; font-size: 12.5px; color: var(--error); margin-top: 4px; }
+  .error-text.visible { display: block; }
+  .special-row, .announcement-row {
     border: 1px solid var(--line);
     border-radius: 10px;
-    padding: 16px;
+    padding: 18px 16px 16px;
     margin-top: 14px;
     position: relative;
   }
-  .special-row .remove-btn {
+  .announcement-row__header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .announcement-row__title { font-size: 13px; font-weight: 700; color: var(--gold-deep); text-transform: uppercase; letter-spacing: 0.04em; }
+  .special-row .remove-btn, .announcement-row .remove-btn {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -79,8 +93,9 @@
     font-size: 20px;
     line-height: 1;
     padding: 4px;
+    cursor: pointer;
   }
-  .special-row .remove-btn:hover { color: var(--gold-deep); }
+  .special-row .remove-btn:hover, .announcement-row .remove-btn:hover { color: var(--gold-deep); }
   .special-row .grid-2 { grid-template-columns: 1fr 1fr; }
   .special-row .closed-row { margin-top: 12px; }
   .add-btn, .save-btn, .login-btn {
@@ -121,12 +136,12 @@
   .empty-note { color: var(--ink-faint); font-size: 13.5px; margin-top: 14px; }
   .photo-preview {
     width: 100%;
-    max-width: 320px;
-    aspect-ratio: 16 / 9;
+    max-width: 220px;
+    aspect-ratio: 4 / 5;
     border-radius: 10px;
     object-fit: cover;
     border: 1px solid var(--line);
-    background: var(--cream-deep, #F1EDE7);
+    background: var(--cream-deep);
     display: none;
     margin-top: 4px;
   }
@@ -145,8 +160,30 @@
     display: none;
   }
   .remove-photo-btn.visible { display: inline-block; }
+  .image-hint { background: var(--gold-pale); color: var(--gold-deep); font-size: 12.5px; padding: 8px 12px; border-radius: 6px; margin: 8px 0 0; }
   footer.page-foot { text-align: center; color: var(--ink-faint); font-size: 12.5px; margin-top: 12px; }
   footer.page-foot a { color: var(--gold-deep); }
+
+  /* Prévia ao vivo */
+  .preview-toolbar {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px; margin-bottom: 16px;
+  }
+  .preview-toolbar label { margin: 0; display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .preview-toolbar select { width: auto; min-width: 180px; }
+  .preview-toggle { display: flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .preview-toggle__btn {
+    font-family: var(--font-body); font-size: 13px; font-weight: 600;
+    padding: 8px 16px; border: 0; background: var(--cream); color: var(--ink-soft); cursor: pointer;
+  }
+  .preview-toggle__btn.is-active { background: var(--gold); color: #fff; }
+  .preview-frame-wrap {
+    display: flex; justify-content: center; align-items: center;
+    background: var(--cream-deep); border: 1px solid var(--line); border-radius: 12px;
+    padding: 20px; overflow: auto;
+  }
+  .preview-frame { display: block; width: 390px; height: 600px; max-width: 100%; border: 0; background: transparent; transition: width 0.25s ease; }
+  .preview-frame.is-desktop { width: 820px; }
 
   /* Tela de login */
   .login-screen {
@@ -189,38 +226,32 @@
 <div class="wrap" id="adminContent" hidden>
   <header class="page-head">
     <h1>Painel Admin</h1>
-    <p>Gomes Odontologia &amp; Estética — avisos e horários especiais do site</p>
+    <p>Gomes Odontologia &amp; Estética — anúncios e horários especiais do site</p>
   </header>
 
   <section class="card">
-    <h2>Anúncio (pop-up)</h2>
-    <p class="hint">Aparece como um aviso sobre a tela quando alguém abre o site (uma vez por visita). Desative quando a promoção acabar.</p>
+    <h2>Anúncios (pop-up)</h2>
+    <p class="hint">Aparecem como um aviso sobre a tela, depois de alguns segundos (não é um banner fixo). Se houver mais de um ativo ao mesmo tempo, o site mostra só o de maior prioridade.</p>
 
-    <label class="checkbox-label"><input type="checkbox" id="annEnabled"> Ativar anúncio no site</label>
+    <div id="announcementsList"></div>
+    <p class="empty-note" id="announcementsEmptyNote" hidden>Nenhum anúncio cadastrado.</p>
+    <button type="button" class="add-btn" id="addAnnouncementBtn">+ Adicionar anúncio</button>
+  </section>
 
-    <label for="annTitle">Título (opcional)</label>
-    <input type="text" id="annTitle" placeholder="Ex.: Promoção de Outubro">
-
-    <label for="annMessage">Mensagem</label>
-    <textarea id="annMessage" placeholder="Ex.: Avaliação gratuita até o fim do mês. Agende pelo WhatsApp!"></textarea>
-
-    <div class="grid-2">
-      <div>
-        <label for="annLinkLabel">Texto do botão (opcional)</label>
-        <input type="text" id="annLinkLabel" placeholder="Ex.: Agendar agora">
-      </div>
-      <div>
-        <label for="annLinkUrl">Link do botão (opcional)</label>
-        <input type="url" id="annLinkUrl" placeholder="https://wa.me/...">
+  <section class="card">
+    <h2>Prévia ao vivo</h2>
+    <p class="hint">Mostra exatamente como o anúncio escolhido vai aparecer no site (mesmo HTML/CSS).</p>
+    <div class="preview-toolbar">
+      <label for="previewSelect">Anúncio:
+        <select id="previewSelect"></select>
+      </label>
+      <div class="preview-toggle">
+        <button type="button" class="preview-toggle__btn is-active" data-preview-mode="mobile">Celular</button>
+        <button type="button" class="preview-toggle__btn" data-preview-mode="desktop">Desktop</button>
       </div>
     </div>
-
-    <label>Foto do anúncio (opcional)</label>
-    <p class="hint" style="margin:0 0 10px;">Uma foto real da clínica ou do tratamento deixa o aviso com cara de anúncio próprio da clínica, não de pop-up genérico. Qualquer formato (JPG, PNG) e tamanho — é redimensionada automaticamente.</p>
-    <img id="annImagePreview" class="photo-preview" alt="Pré-visualização da foto do anúncio">
-    <div class="photo-actions">
-      <input type="file" id="annImageInput" accept="image/*">
-      <button type="button" class="remove-photo-btn" id="removeImageBtn">Remover foto</button>
+    <div class="preview-frame-wrap">
+      <iframe id="previewFrame" class="preview-frame" title="Prévia do anúncio"></iframe>
     </div>
   </section>
 
@@ -247,62 +278,140 @@
   </footer>
 </div>
 
+<script src="js/announcement-modal.js"></script>
 <script>
 (function () {
   'use strict';
 
+  var Modal = window.GomesAnnouncementModal;
+
   // Mantida só na memória desta aba — nunca em localStorage/sessionStorage/cookies,
   // nunca em console.log, nunca em query string (sempre POST com corpo JSON).
-  let sessionPassword = null;
+  var sessionPassword = null;
 
-  const loginScreen = document.getElementById('loginScreen');
-  const loginForm = document.getElementById('loginForm');
-  const loginPasswordInput = document.getElementById('loginPassword');
-  const loginBtn = document.getElementById('loginBtn');
-  const loginStatus = document.getElementById('loginStatus');
-  const adminContent = document.getElementById('adminContent');
+  var loginScreen = document.getElementById('loginScreen');
+  var loginForm = document.getElementById('loginForm');
+  var loginPasswordInput = document.getElementById('loginPassword');
+  var loginBtn = document.getElementById('loginBtn');
+  var loginStatus = document.getElementById('loginStatus');
+  var adminContent = document.getElementById('adminContent');
 
-  const specialHoursList = document.getElementById('specialHoursList');
-  const emptyNote = document.getElementById('emptyNote');
-  const addSpecialBtn = document.getElementById('addSpecialBtn');
-  const saveBtn = document.getElementById('saveBtn');
-  const statusMsg = document.getElementById('statusMsg');
+  var specialHoursList = document.getElementById('specialHoursList');
+  var emptyNote = document.getElementById('emptyNote');
+  var addSpecialBtn = document.getElementById('addSpecialBtn');
+  var saveBtn = document.getElementById('saveBtn');
+  var statusMsg = document.getElementById('statusMsg');
 
-  const annImageInput = document.getElementById('annImageInput');
-  const annImagePreview = document.getElementById('annImagePreview');
-  const removeImageBtn = document.getElementById('removeImageBtn');
+  var announcementsList = document.getElementById('announcementsList');
+  var announcementsEmptyNote = document.getElementById('announcementsEmptyNote');
+  var addAnnouncementBtn = document.getElementById('addAnnouncementBtn');
+  var previewSelect = document.getElementById('previewSelect');
+  var previewFrame = document.getElementById('previewFrame');
 
-  // currentImage reflete o que está salvo (path + versão pra cache-busting);
-  // pendingImageBase64/pendingImageRemoved só existem entre escolher uma foto
-  // nova (ou remover) e o próximo clique em "Salvar".
-  let currentImage = { path: '', version: 0 };
-  let pendingImageBase64 = null;
-  let pendingImageRemoved = false;
+  // Caminhos de imagem que precisam ser apagados do repositório no próximo
+  // salvamento (anúncio removido, ou foto trocada/removida de um que ficou).
+  var imagePathsToDelete = [];
+  // Estado de imagem por linha, indexado pelo id do anúncio.
+  var rowImageState = {};
+  var previewMode = 'mobile';
+  var previewDebounce = null;
 
-  function setImagePreview(url) {
-    annImagePreview.src = url;
-    annImagePreview.classList.add('has-image');
-    removeImageBtn.classList.add('visible');
+  function showMsg(el, type, message) {
+    el.className = 'status-msg ' + type;
+    el.textContent = message;
   }
 
-  function clearImagePreview() {
-    annImagePreview.removeAttribute('src');
-    annImagePreview.classList.remove('has-image');
-    removeImageBtn.classList.remove('visible');
+  function genId() {
+    return 'ann-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
   }
 
-  function resizeImageFile(file, maxWidth, quality) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onerror = () => reject(new Error('Erro ao ler o arquivo.'));
-      reader.onload = () => {
-        const img = new Image();
-        img.onerror = () => reject(new Error('Arquivo não é uma imagem válida.'));
-        img.onload = () => {
-          const scale = Math.min(1, maxWidth / img.width);
-          const w = Math.round(img.width * scale);
-          const h = Math.round(img.height * scale);
-          const canvas = document.createElement('canvas');
+  loginForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var password = loginPasswordInput.value;
+    if (!password) return;
+
+    loginBtn.disabled = true;
+    showMsg(loginStatus, 'loading', 'Verificando...');
+
+    fetch('/api/verify-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: password }),
+    })
+      .then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
+      .then(function (res) {
+        loginBtn.disabled = false;
+        if (res.ok && res.data.success) {
+          sessionPassword = password;
+          loginPasswordInput.value = '';
+          loginScreen.remove();
+          adminContent.hidden = false;
+          loadContent();
+        } else {
+          showMsg(loginStatus, 'error', res.data.error || 'Senha incorreta.');
+        }
+      })
+      .catch(function () {
+        loginBtn.disabled = false;
+        showMsg(loginStatus, 'error', 'Erro de conexão. Tente novamente.');
+      });
+  });
+
+  /* ============================================================
+     HORÁRIOS ESPECIAIS (sem mudanças de comportamento)
+     ============================================================ */
+  function createSpecialRow(entry) {
+    entry = entry || { date: '', label: '', opens: '', closes: '', closed: false };
+    var row = document.createElement('div');
+    row.className = 'special-row';
+    row.innerHTML =
+      '<button type="button" class="remove-btn" aria-label="Remover esta data">&times;</button>' +
+      '<div class="grid-2">' +
+        '<div><label>Data</label><input type="date" class="sh-date" value="' + (entry.date || '') + '"></div>' +
+        '<div><label>Observação (opcional)</label><input type="text" class="sh-label" placeholder="Ex.: Feriado" value="' + escapeAttr(entry.label || '') + '"></div>' +
+      '</div>' +
+      '<div class="grid-2 hours-row" style="' + (entry.closed ? 'display:none;' : '') + '">' +
+        '<div><label>Abre às</label><input type="time" class="sh-opens" value="' + (entry.opens || '') + '"></div>' +
+        '<div><label>Fecha às</label><input type="time" class="sh-closes" value="' + (entry.closes || '') + '"></div>' +
+      '</div>' +
+      '<label class="checkbox-label closed-row"><input type="checkbox" class="sh-closed" ' + (entry.closed ? 'checked' : '') + '> Fechado neste dia</label>';
+
+    var closedCheckbox = row.querySelector('.sh-closed');
+    var hoursRow = row.querySelector('.hours-row');
+    closedCheckbox.addEventListener('change', function () {
+      hoursRow.style.display = closedCheckbox.checked ? 'none' : '';
+    });
+    row.querySelector('.remove-btn').addEventListener('click', function () {
+      row.remove();
+      toggleEmptyNote();
+    });
+    return row;
+  }
+
+  function toggleEmptyNote() {
+    emptyNote.hidden = specialHoursList.children.length > 0;
+  }
+
+  addSpecialBtn.addEventListener('click', function () {
+    specialHoursList.appendChild(createSpecialRow());
+    toggleEmptyNote();
+  });
+
+  /* ============================================================
+     ANÚNCIOS
+     ============================================================ */
+  function resizeImageFile(file, maxWidth, maxHeight, quality) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onerror = function () { reject(new Error('Erro ao ler o arquivo.')); };
+      reader.onload = function () {
+        var img = new Image();
+        img.onerror = function () { reject(new Error('Arquivo não é uma imagem válida.')); };
+        img.onload = function () {
+          var scale = Math.min(1, maxWidth / img.width, maxHeight / img.height);
+          var w = Math.round(img.width * scale);
+          var h = Math.round(img.height * scale);
+          var canvas = document.createElement('canvas');
           canvas.width = w;
           canvas.height = h;
           canvas.getContext('2d').drawImage(img, 0, 0, w, h);
@@ -314,217 +423,414 @@
     });
   }
 
-  annImageInput.addEventListener('change', () => {
-    const file = annImageInput.files[0];
-    if (!file) return;
-    resizeImageFile(file, 1100, 0.82)
-      .then((dataUrl) => {
-        pendingImageBase64 = dataUrl.split(',')[1];
-        pendingImageRemoved = false;
-        setImagePreview(dataUrl);
-      })
-      .catch(() => {
-        showMsg(statusMsg, 'error', 'Não foi possível processar essa imagem. Tente outro arquivo.');
-      });
-  });
-
-  removeImageBtn.addEventListener('click', () => {
-    pendingImageBase64 = null;
-    pendingImageRemoved = true;
-    annImageInput.value = '';
-    clearImagePreview();
-  });
-
-  function showMsg(el, type, message) {
-    el.className = 'status-msg ' + type;
-    el.textContent = message;
+  function escapeAttr(str) {
+    return String(str == null ? '' : str).replace(/"/g, '&quot;');
   }
 
-  loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const password = loginPasswordInput.value;
-    if (!password) return;
+  function updateCounter(input, counterEl, limit) {
+    var len = input.value.length;
+    counterEl.textContent = len + '/' + limit;
+    counterEl.classList.toggle('is-over', len > limit);
+  }
 
-    loginBtn.disabled = true;
-    showMsg(loginStatus, 'loading', 'Verificando...');
+  function createAnnouncementRow(entry) {
+    entry = Object.assign({
+      id: genId(), active: false, badge: '', title: '', message: '',
+      image: '', imageAlt: '', imageVersion: 0,
+      buttonText: '', buttonType: 'whatsapp', whatsappMessage: '', linkUrl: '',
+      startDate: '', endDate: '', priority: 0, delaySeconds: 3, cooldownDays: 3,
+    }, entry || {});
 
-    fetch('/api/verify-password', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password }),
-    })
-      .then((r) => r.json().then((data) => ({ ok: r.ok, data })))
-      .then(({ ok, data }) => {
-        loginBtn.disabled = false;
-        if (ok && data.success) {
-          sessionPassword = password;
-          loginPasswordInput.value = '';
-          loginScreen.remove();
-          adminContent.hidden = false;
-          loadContent();
-        } else {
-          showMsg(loginStatus, 'error', data.error || 'Senha incorreta.');
-        }
-      })
-      .catch(() => {
-        loginBtn.disabled = false;
-        showMsg(loginStatus, 'error', 'Erro de conexão. Tente novamente.');
-      });
-  });
+    rowImageState[entry.id] = {
+      currentImage: { path: entry.image || '', version: entry.imageVersion || 0 },
+      pendingBase64: null,
+      pendingRemoved: false,
+    };
 
-  function createSpecialRow(entry) {
-    entry = entry || { date: '', label: '', opens: '', closes: '', closed: false };
-    const row = document.createElement('div');
-    row.className = 'special-row';
-    row.innerHTML = `
-      <button type="button" class="remove-btn" aria-label="Remover esta data">&times;</button>
-      <div class="grid-2">
-        <div>
-          <label>Data</label>
-          <input type="date" class="sh-date" value="${entry.date || ''}">
-        </div>
-        <div>
-          <label>Observação (opcional)</label>
-          <input type="text" class="sh-label" placeholder="Ex.: Feriado" value="${escapeAttr(entry.label || '')}">
-        </div>
-      </div>
-      <div class="grid-2 hours-row" style="${entry.closed ? 'display:none;' : ''}">
-        <div>
-          <label>Abre às</label>
-          <input type="time" class="sh-opens" value="${entry.opens || ''}">
-        </div>
-        <div>
-          <label>Fecha às</label>
-          <input type="time" class="sh-closes" value="${entry.closes || ''}">
-        </div>
-      </div>
-      <label class="checkbox-label closed-row"><input type="checkbox" class="sh-closed" ${entry.closed ? 'checked' : ''}> Fechado neste dia</label>
-    `;
-    const closedCheckbox = row.querySelector('.sh-closed');
-    const hoursRow = row.querySelector('.hours-row');
-    closedCheckbox.addEventListener('change', () => {
-      hoursRow.style.display = closedCheckbox.checked ? 'none' : '';
-    });
-    row.querySelector('.remove-btn').addEventListener('click', () => {
-      row.remove();
-      toggleEmptyNote();
-    });
+    var row = document.createElement('div');
+    row.className = 'announcement-row';
+    row.dataset.id = entry.id;
+    row.innerHTML =
+      '<button type="button" class="remove-btn" aria-label="Remover este anúncio">&times;</button>' +
+      '<div class="announcement-row__header"><span class="announcement-row__title">Anúncio</span></div>' +
+      '<label class="checkbox-label ann-active"><input type="checkbox" class="f-active"' + (entry.active ? ' checked' : '') + '> Ativo</label>' +
+
+      '<label>Selo (opcional)</label>' +
+      '<input type="text" class="f-badge" placeholder="Ex.: Novidade, Campanha, Agenda aberta" value="' + escapeAttr(entry.badge) + '" maxlength="30">' +
+
+      '<div class="field-row"><label>Título</label><input type="text" class="f-title" value="' + escapeAttr(entry.title) + '"><span class="char-counter f-title-counter"></span></div>' +
+
+      '<div class="field-row"><label>Texto</label><textarea class="f-message">' + escapeAttrText(entry.message) + '</textarea><span class="char-counter f-message-counter"></span></div>' +
+
+      '<label>Foto do anúncio (opcional)</label>' +
+      '<img class="photo-preview f-image-preview" alt="Pré-visualização da foto do anúncio">' +
+      '<div class="photo-actions">' +
+        '<input type="file" class="f-image-input" accept="image/*">' +
+        '<button type="button" class="remove-photo-btn f-remove-image">Remover foto</button>' +
+      '</div>' +
+      '<p class="image-hint">Use imagem vertical 4:5 (ex.: 1080x1350), sem textos e sem prints do Instagram.</p>' +
+      '<label>Texto alternativo da foto (acessibilidade)</label>' +
+      '<input type="text" class="f-image-alt" placeholder="Ex.: Dra. Alanis sorrindo no consultório" value="' + escapeAttr(entry.imageAlt) + '">' +
+
+      '<div class="grid-2">' +
+        '<div><label>Tipo do botão</label><select class="f-button-type">' +
+          '<option value="whatsapp"' + (entry.buttonType === 'whatsapp' ? ' selected' : '') + '>WhatsApp</option>' +
+          '<option value="link"' + (entry.buttonType === 'link' ? ' selected' : '') + '>Link</option>' +
+        '</select></div>' +
+        '<div><label>Texto do botão</label><input type="text" class="f-button-text" placeholder="Ex.: Agendar agora" value="' + escapeAttr(entry.buttonText) + '"></div>' +
+      '</div>' +
+
+      '<div class="f-whatsapp-field"><label>Mensagem do WhatsApp</label><textarea class="f-whatsapp-message" placeholder="Olá! Vi o aviso sobre... no site e gostaria de agendar.">' + escapeAttrText(entry.whatsappMessage) + '</textarea></div>' +
+      '<div class="f-link-field"><label>Link (precisa começar com https://)</label><input type="url" class="f-link-url" placeholder="https://..." value="' + escapeAttr(entry.linkUrl) + '"><span class="error-text f-link-error">O link precisa começar com https://</span></div>' +
+
+      '<div class="grid-2">' +
+        '<div><label>Início (opcional)</label><input type="date" class="f-start-date" value="' + escapeAttr(entry.startDate) + '"></div>' +
+        '<div><label>Fim (opcional)</label><input type="date" class="f-end-date" value="' + escapeAttr(entry.endDate) + '"></div>' +
+      '</div>' +
+      '<span class="error-text f-date-error">A data de fim precisa ser depois da data de início.</span>' +
+
+      '<div class="grid-3">' +
+        '<div><label>Prioridade</label><input type="number" class="f-priority" value="' + (entry.priority || 0) + '" step="1"></div>' +
+        '<div><label>Atraso pra abrir (s)</label><input type="number" class="f-delay" value="' + (typeof entry.delaySeconds === 'number' ? entry.delaySeconds : 3) + '" min="0" step="1"></div>' +
+        '<div><label>Dias sem reexibir</label><input type="number" class="f-cooldown" value="' + (typeof entry.cooldownDays === 'number' ? entry.cooldownDays : 3) + '" min="0" step="1"></div>' +
+      '</div>' +
+      '<span class="error-text f-required-error">Preencha título e texto antes de salvar.</span>';
+
+    wireAnnouncementRow(row, entry);
     return row;
   }
 
-  function toggleEmptyNote() {
-    emptyNote.hidden = specialHoursList.children.length > 0;
+  function escapeAttrText(str) {
+    var div = document.createElement('div');
+    div.textContent = str == null ? '' : str;
+    return div.innerHTML;
   }
 
-  function escapeAttr(str) {
-    return String(str).replace(/"/g, '&quot;');
+  function wireAnnouncementRow(row) {
+    var id = row.dataset.id;
+    var titleInput = row.querySelector('.f-title');
+    var titleCounter = row.querySelector('.f-title-counter');
+    var messageInput = row.querySelector('.f-message');
+    var messageCounter = row.querySelector('.f-message-counter');
+    var buttonTypeSelect = row.querySelector('.f-button-type');
+    var whatsappField = row.querySelector('.f-whatsapp-field');
+    var linkField = row.querySelector('.f-link-field');
+    var linkUrlInput = row.querySelector('.f-link-url');
+    var imageInput = row.querySelector('.f-image-input');
+    var imagePreview = row.querySelector('.f-image-preview');
+    var removeImageBtn = row.querySelector('.f-remove-image');
+
+    function syncButtonTypeVisibility() {
+      var isWhatsapp = buttonTypeSelect.value === 'whatsapp';
+      whatsappField.style.display = isWhatsapp ? '' : 'none';
+      linkField.style.display = isWhatsapp ? 'none' : '';
+    }
+    syncButtonTypeVisibility();
+    buttonTypeSelect.addEventListener('change', function () {
+      syncButtonTypeVisibility();
+      schedulePreview(id);
+    });
+
+    updateCounter(titleInput, titleCounter, 60);
+    updateCounter(messageInput, messageCounter, 180);
+    titleInput.addEventListener('input', function () { updateCounter(titleInput, titleCounter, 60); schedulePreview(id); });
+    messageInput.addEventListener('input', function () { updateCounter(messageInput, messageCounter, 180); schedulePreview(id); });
+
+    linkUrlInput.addEventListener('input', function () {
+      linkUrlInput.closest('.f-link-field').querySelector('.f-link-error').classList.remove('visible');
+      schedulePreview(id);
+    });
+
+    row.querySelectorAll('input, textarea, select').forEach(function (el) {
+      el.addEventListener('input', function () { schedulePreview(id); });
+      el.addEventListener('change', function () { schedulePreview(id); });
+    });
+
+    function setPreviewImage(url) {
+      imagePreview.src = url;
+      imagePreview.classList.add('has-image');
+      removeImageBtn.classList.add('visible');
+    }
+    function clearPreviewImage() {
+      imagePreview.removeAttribute('src');
+      imagePreview.classList.remove('has-image');
+      removeImageBtn.classList.remove('visible');
+    }
+    var state = rowImageState[id];
+    if (state.currentImage.path) {
+      setPreviewImage('/' + state.currentImage.path + (state.currentImage.version ? '?v=' + state.currentImage.version : ''));
+    }
+
+    imageInput.addEventListener('change', function () {
+      var file = imageInput.files[0];
+      if (!file) return;
+      resizeImageFile(file, 1080, 1350, 0.8)
+        .then(function (dataUrl) {
+          state.pendingBase64 = dataUrl.split(',')[1];
+          state.pendingRemoved = false;
+          setPreviewImage(dataUrl);
+          schedulePreview(id);
+        })
+        .catch(function () {
+          showMsg(statusMsg, 'error', 'Não foi possível processar essa imagem. Tente outro arquivo.');
+        });
+    });
+
+    removeImageBtn.addEventListener('click', function () {
+      if (state.currentImage.path) imagePathsToDelete.push(state.currentImage.path);
+      state.pendingBase64 = null;
+      state.pendingRemoved = true;
+      state.currentImage = { path: '', version: 0 };
+      imageInput.value = '';
+      clearPreviewImage();
+      schedulePreview(id);
+    });
+
+    row.querySelector('.remove-btn').addEventListener('click', function () {
+      if (state.currentImage.path) imagePathsToDelete.push(state.currentImage.path);
+      delete rowImageState[id];
+      row.remove();
+      toggleAnnouncementsEmptyNote();
+      refreshPreviewSelectOptions();
+    });
   }
 
-  addSpecialBtn.addEventListener('click', () => {
-    specialHoursList.appendChild(createSpecialRow());
-    toggleEmptyNote();
+  function toggleAnnouncementsEmptyNote() {
+    announcementsEmptyNote.hidden = announcementsList.children.length > 0;
+  }
+
+  addAnnouncementBtn.addEventListener('click', function () {
+    var row = createAnnouncementRow();
+    announcementsList.appendChild(row);
+    toggleAnnouncementsEmptyNote();
+    refreshPreviewSelectOptions();
+    previewSelect.value = row.dataset.id;
+    schedulePreview(row.dataset.id);
   });
 
+  function readRow(row) {
+    var buttonType = row.querySelector('.f-button-type').value;
+    var state = rowImageState[row.dataset.id];
+    return {
+      id: row.dataset.id,
+      active: row.querySelector('.f-active').checked,
+      badge: row.querySelector('.f-badge').value.trim(),
+      title: row.querySelector('.f-title').value.trim(),
+      message: row.querySelector('.f-message').value.trim(),
+      image: state.currentImage.path,
+      imageAlt: row.querySelector('.f-image-alt').value.trim(),
+      imageVersion: state.currentImage.version,
+      buttonText: row.querySelector('.f-button-text').value.trim(),
+      buttonType: buttonType,
+      whatsappMessage: row.querySelector('.f-whatsapp-message').value.trim(),
+      linkUrl: row.querySelector('.f-link-url').value.trim(),
+      startDate: row.querySelector('.f-start-date').value,
+      endDate: row.querySelector('.f-end-date').value,
+      priority: parseInt(row.querySelector('.f-priority').value, 10) || 0,
+      delaySeconds: Math.max(0, parseInt(row.querySelector('.f-delay').value, 10) || 0),
+      cooldownDays: Math.max(0, parseInt(row.querySelector('.f-cooldown').value, 10) || 0),
+    };
+  }
+
+  function validateRow(row) {
+    var data = readRow(row);
+    var ok = true;
+
+    var requiredError = row.querySelector('.f-required-error');
+    if (!data.title || !data.message) {
+      requiredError.classList.add('visible');
+      ok = false;
+    } else {
+      requiredError.classList.remove('visible');
+    }
+
+    var linkError = row.querySelector('.f-link-error');
+    if (data.buttonType === 'link' && data.linkUrl && !Modal.isValidHttpsUrl(data.linkUrl)) {
+      linkError.classList.add('visible');
+      ok = false;
+    } else {
+      linkError.classList.remove('visible');
+    }
+
+    var dateError = row.querySelector('.f-date-error');
+    if (data.startDate && data.endDate && data.endDate < data.startDate) {
+      dateError.classList.add('visible');
+      ok = false;
+    } else {
+      dateError.classList.remove('visible');
+    }
+
+    return ok;
+  }
+
+  /* ============================================================
+     PRÉVIA AO VIVO
+     ============================================================ */
+  function refreshPreviewSelectOptions() {
+    var rows = Array.prototype.slice.call(announcementsList.querySelectorAll('.announcement-row'));
+    var previousValue = previewSelect.value;
+    previewSelect.innerHTML = rows.map(function (row, i) {
+      var title = row.querySelector('.f-title').value.trim();
+      return '<option value="' + row.dataset.id + '">' + escapeAttrText(title || ('Anúncio ' + (i + 1) + ' (sem título)')) + '</option>';
+    }).join('');
+    if (rows.some(function (r) { return r.dataset.id === previousValue; })) {
+      previewSelect.value = previousValue;
+    }
+  }
+
+  function schedulePreview(idThatChanged) {
+    refreshPreviewSelectOptions();
+    if (previewSelect.value && previewSelect.value !== idThatChanged) return;
+    clearTimeout(previewDebounce);
+    previewDebounce = setTimeout(renderPreview, 300);
+  }
+
+  function renderPreview() {
+    var id = previewSelect.value;
+    var row = announcementsList.querySelector('.announcement-row[data-id="' + id + '"]');
+    if (!row || !Modal) {
+      previewFrame.srcdoc = '<!doctype html><html><body></body></html>';
+      return;
+    }
+    var data = readRow(row);
+    var cardHtml = Modal.buildCardMarkup(data);
+    var doc =
+      '<!doctype html><html><head><meta charset="utf-8">' +
+      '<base href="/">' +
+      '<link rel="preconnect" href="https://fonts.googleapis.com">' +
+      '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">' +
+      '<link rel="stylesheet" href="css/style.css">' +
+      '<style>' +
+        'html,body{height:100%;margin:0;}' +
+        'body{background:var(--cream,#FBF9F6);}' +
+        '.announcement-overlay{position:relative;min-height:100%;opacity:1!important;visibility:visible!important;background:rgba(27,29,32,0.35);padding:20px;box-sizing:border-box;}' +
+        '.announcement-card{transform:none!important;}' +
+      '</style>' +
+      '</head><body><div class="announcement-overlay is-visible">' + cardHtml + '</div></body></html>';
+    previewFrame.srcdoc = doc;
+  }
+
+  document.querySelectorAll('.preview-toggle__btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.preview-toggle__btn').forEach(function (b) { b.classList.remove('is-active'); });
+      btn.classList.add('is-active');
+      previewMode = btn.dataset.previewMode;
+      previewFrame.classList.toggle('is-desktop', previewMode === 'desktop');
+    });
+  });
+  previewSelect.addEventListener('change', renderPreview);
+
+  /* ============================================================
+     CARREGAR / MONTAR / SALVAR
+     ============================================================ */
   function loadContent() {
     fetch('data/site-content.json', { cache: 'no-store' })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
         if (!data) return;
-        const ann = data.announcement || {};
-        document.getElementById('annEnabled').checked = !!ann.enabled;
-        document.getElementById('annTitle').value = ann.title || '';
-        document.getElementById('annMessage').value = ann.message || '';
-        document.getElementById('annLinkLabel').value = ann.linkLabel || '';
-        document.getElementById('annLinkUrl').value = ann.linkUrl || '';
 
-        pendingImageBase64 = null;
-        pendingImageRemoved = false;
-        if (ann.image) {
-          currentImage = { path: ann.image, version: ann.imageVersion || 0 };
-          setImagePreview('/' + ann.image + (ann.imageVersion ? '?v=' + ann.imageVersion : ''));
-        } else {
-          currentImage = { path: '', version: 0 };
-          clearImagePreview();
+        var announcements = Modal ? Modal.normalizeAnnouncements(data) : [];
+        announcementsList.innerHTML = '';
+        rowImageState = {};
+        announcements.forEach(function (entry) {
+          announcementsList.appendChild(createAnnouncementRow(entry));
+        });
+        toggleAnnouncementsEmptyNote();
+        refreshPreviewSelectOptions();
+        if (announcements.length) {
+          previewSelect.selectedIndex = 0;
+          renderPreview();
         }
 
-        const specialHours = Array.isArray(data.specialHours) ? data.specialHours : [];
+        var specialHours = Array.isArray(data.specialHours) ? data.specialHours : [];
         specialHoursList.innerHTML = '';
-        specialHours.forEach((entry) => specialHoursList.appendChild(createSpecialRow(entry)));
+        specialHours.forEach(function (entry) { specialHoursList.appendChild(createSpecialRow(entry)); });
         toggleEmptyNote();
       })
-      .catch(() => {
+      .catch(function () {
         showMsg(statusMsg, 'error', 'Não foi possível carregar o conteúdo atual. Tente recarregar a página.');
       });
   }
 
   function buildContent() {
-    const specialHours = Array.from(specialHoursList.querySelectorAll('.special-row')).map((row) => {
-      const closed = row.querySelector('.sh-closed').checked;
+    var specialHours = Array.from(specialHoursList.querySelectorAll('.special-row')).map(function (row) {
+      var closed = row.querySelector('.sh-closed').checked;
       return {
         date: row.querySelector('.sh-date').value,
         label: row.querySelector('.sh-label').value.trim(),
         opens: closed ? '' : row.querySelector('.sh-opens').value,
         closes: closed ? '' : row.querySelector('.sh-closes').value,
-        closed,
+        closed: closed,
       };
-    }).filter((entry) => entry.date);
+    }).filter(function (entry) { return entry.date; });
 
-    return {
-      announcement: {
-        enabled: document.getElementById('annEnabled').checked,
-        title: document.getElementById('annTitle').value.trim(),
-        message: document.getElementById('annMessage').value.trim(),
-        linkLabel: document.getElementById('annLinkLabel').value.trim(),
-        linkUrl: document.getElementById('annLinkUrl').value.trim(),
-        image: currentImage.path,
-        imageVersion: currentImage.version,
-      },
-      specialHours,
-    };
+    var announcements = Array.from(announcementsList.querySelectorAll('.announcement-row')).map(readRow);
+
+    return { announcements: announcements, specialHours: specialHours };
   }
 
-  saveBtn.addEventListener('click', () => {
+  saveBtn.addEventListener('click', function () {
     if (!sessionPassword) return;
-    const content = buildContent();
-    const body = { password: sessionPassword, content };
-    if (pendingImageBase64) {
-      body.image = pendingImageBase64;
-    } else if (pendingImageRemoved) {
-      body.image = '__remove__';
+
+    var rows = Array.from(announcementsList.querySelectorAll('.announcement-row'));
+    var allValid = rows.map(validateRow).every(Boolean);
+    if (!allValid) {
+      showMsg(statusMsg, 'error', 'Corrija os campos destacados em vermelho antes de salvar.');
+      return;
     }
 
+    var content = buildContent();
+    var body = { password: sessionPassword, content: content };
+
+    var images = {};
+    var hasImages = false;
+    rows.forEach(function (row) {
+      var id = row.dataset.id;
+      var state = rowImageState[id];
+      if (state && state.pendingBase64) {
+        images[id] = state.pendingBase64;
+        hasImages = true;
+      }
+    });
+    if (hasImages) body.images = images;
+    if (imagePathsToDelete.length) body.imagePathsToDelete = imagePathsToDelete.slice();
+
     saveBtn.disabled = true;
-    showMsg(statusMsg, 'loading', pendingImageBase64 ? 'Enviando foto e salvando...' : 'Salvando...');
+    showMsg(statusMsg, 'loading', hasImages ? 'Enviando fotos e salvando...' : 'Salvando...');
 
     fetch('/api/save-content', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     })
-      .then((r) => r.json().then((data) => ({ ok: r.ok, data })))
-      .then(({ ok, data }) => {
+      .then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
+      .then(function (res) {
         saveBtn.disabled = false;
-        if (ok && data.success) {
-          if (data.image) {
-            currentImage = { path: data.image, version: data.imageVersion || 0 };
-            setImagePreview('/' + data.image + '?v=' + currentImage.version);
-          } else if (pendingImageRemoved) {
-            currentImage = { path: '', version: 0 };
-          }
-          pendingImageBase64 = null;
-          pendingImageRemoved = false;
+        if (res.ok && res.data.success) {
+          imagePathsToDelete = [];
+          var updatedImages = res.data.images || {};
+          rows.forEach(function (row) {
+            var id = row.dataset.id;
+            var state = rowImageState[id];
+            if (!state) return;
+            if (updatedImages[id]) {
+              state.currentImage = { path: updatedImages[id].image, version: updatedImages[id].imageVersion };
+            } else if (state.pendingRemoved) {
+              state.currentImage = { path: '', version: 0 };
+            }
+            state.pendingBase64 = null;
+            state.pendingRemoved = false;
+          });
           showMsg(statusMsg, 'success', 'Salvo! O site vai atualizar em 1 a 2 minutos.');
         } else {
-          showMsg(statusMsg, 'error', data.error || 'Erro ao salvar. Tente novamente.');
+          showMsg(statusMsg, 'error', res.data.error || 'Erro ao salvar. Tente novamente.');
         }
       })
-      .catch(() => {
+      .catch(function () {
         saveBtn.disabled = false;
         showMsg(statusMsg, 'error', 'Erro de conexão. Verifique a internet e tente novamente.');
       });
   });
-
-  loginPasswordInput.focus();
 })();
 </script>
 </body>

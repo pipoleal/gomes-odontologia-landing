@@ -164,8 +164,9 @@ Onde ainda não há foto real (Odontopediatria e Harmonização Facial — este 
 │   ├── treatments.js    # bloco "Tratamentos em destaque" (array editável)
 │   ├── carousel.js      # carrossel arrastável (Antes/Depois, Depoimentos)
 │   ├── animations.js    # GSAP/ScrollTrigger — parallax, reveals, tilt 3D
-│   └── site-content.js  # lê data/site-content.json e mostra anúncio/horário especial
-├── admin.html            # painel admin (anúncio + horários especiais) — ver seção 9
+│   ├── announcement-modal.js # componente compartilhado do card de anúncio (site + prévia do painel)
+│   └── site-content.js  # lê data/site-content.json, escolhe o anúncio vencedor e mostra horário especial
+├── admin.html            # painel admin (anúncios + horários especiais) — ver seção 9
 ├── api/
 │   ├── verify-password.js # Vercel Serverless Function — confere a senha da tela de login
 │   └── save-content.js    # Vercel Serverless Function usada pelo admin.html pra salvar
@@ -220,15 +221,17 @@ Se no futuro o site crescer (mais páginas, formulário com backend, etc.), vale
 
 ---
 
-## 9. Painel admin (anúncio + horários especiais)
+## 9. Painel admin (anúncios + horários especiais)
 
-Painel simples em `/admin.html` para 1–2 funcionárias editarem, sem precisar tocar em código:
+Painel simples em `/admin` para 1–2 funcionárias editarem, sem precisar tocar em código:
 - **Tela de login:** pede a senha do painel antes de mostrar qualquer campo ou conteúdo atual. Quem não souber a senha não vê nada além do campo de senha.
-- **Anúncio (pop-up):** aviso que aparece sobre a tela na primeira visita (não é um banner fixo), com título, mensagem, uma foto opcional e um botão opcional com link (ex.: WhatsApp de uma promoção). Pode ser ativado/desativado a qualquer momento. A foto é enviada direto do computador/celular de quem está editando (sem precisar de link externo) — o navegador redimensiona ela antes de enviar, e ela é salva em `assets/images/announcements/anuncio.jpg` no mesmo commit do conteúdo.
+- **Anúncios (pop-up):** um ou mais avisos que aparecem sobre a tela alguns segundos depois de abrir o site (não é um banner fixo) — cada um com selo opcional, título, texto, foto vertical opcional, botão (WhatsApp com mensagem pré-preenchida, ou link `https://`), período de validade (início/fim), prioridade, atraso pra abrir e dias sem reexibir (cooldown, guardado em `localStorage` por anúncio). Se mais de um estiver ativo ao mesmo tempo, o site mostra só o de maior prioridade. Layout em duas colunas no desktop (foto à esquerda) e foto no topo (proporção 4:5) no celular — o mesmo componente (`js/announcement-modal.js`) é usado tanto no site quanto na prévia ao vivo do painel. Cada anúncio tem sua própria foto, enviada direto do computador/celular (sem link externo), redimensionada/comprimida no navegador antes de enviar, salva em `assets/images/announcements/<id>.jpg`. Ao remover um anúncio ou trocar/apagar a foto dele, o arquivo correspondente também é apagado do repositório no próximo "Salvar".
 - **Horários especiais:** datas com horário diferente do normal (feriados, etc.) ou marcadas como "fechado". Aparece como um aviso perto da seção "Como Chegar" nos 7 dias antes da data cadastrada.
 
+Por conformidade com o Código de Ética Odontológica (CFO), o formulário de anúncios não tem (e não deve ganhar) campos de preço, desconto ou "de/por".
+
 **Como funciona por baixo dos panos (sem banco de dados, sem custo extra):**
-1. O conteúdo fica em `data/site-content.json`, lido direto pelo site (`js/site-content.js`) e, depois do login, pelo painel (`admin.html`).
+1. O conteúdo fica em `data/site-content.json`, lido direto pelo site (`js/site-content.js`) e, depois do login, pelo painel (`/admin`).
 2. Ao digitar a senha na tela de login, o navegador envia `{ senha }` (por POST, nunca na URL) pra função serverless `api/verify-password.js`, que só confere a senha — não grava nada. Se estiver certa, o painel libera a edição e guarda a senha **só na memória da aba** (nunca em localStorage, sessionStorage, cookie ou console) para usar depois no "Salvar", sem pedir de novo.
 3. Ao clicar em "Salvar", o navegador envia `{ senha, conteúdo }` (também por POST) pra função serverless `api/save-content.js`.
 4. Essa função confere a senha de novo e, se estiver certa, grava o novo `data/site-content.json` direto no GitHub via API (usando um token).
@@ -243,8 +246,6 @@ No painel da Vercel → projeto `gomes-odontologia-landing` → **Settings → E
 | Variável | O que é | Situação |
 |---|---|---|
 | `ADMIN_PASSWORD` | A senha do painel (login e salvar usam a mesma). | ✅ Já configurada (Production, Preview e Development) via CLI. Pra trocar a senha, edite essa variável direto no dashboard da Vercel e faça um novo deploy. |
-| `GITHUB_TOKEN` | Um token do GitHub que permite ao painel salvar o arquivo de conteúdo. | ⚠️ **Ainda falta configurar.** GitHub → **Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token**. Em "Repository access", escolher **Only select repositories** → `pipoleal/gomes-odontologia-landing`. Em "Permissions", dar **Contents: Read and write**. Copiar o token gerado (começa com `github_pat_...`) e colar como valor da variável `GITHUB_TOKEN` na Vercel. |
+| `GITHUB_TOKEN` | Fine-grained token do GitHub, com acesso só ao repositório `pipoleal/gomes-odontologia-landing` e permissão **Contents: Read and write**, que permite ao painel salvar conteúdo e fotos. | ✅ Já configurada (Production, Preview e Development). Pra trocar, gerar um novo token em GitHub → **Settings → Developer settings → Personal access tokens → Fine-grained tokens** e colar o valor novo nessa variável na Vercel. |
 
-Depois de configurar o `GITHUB_TOKEN`, fazer um novo deploy (ou aguardar o próximo push) para ele entrar em vigor.
-
-**Acesso ao painel:** `https://xn--gomesodontologiaeesttica-ufc.com.br/admin.html` (não aparece no menu do site nem é indexado pelo Google — `robots.txt` bloqueia e a página tem `<meta name="robots" content="noindex, nofollow">`). Quem abrir o link sem saber a senha só vê a tela de login — nenhum campo, nenhum conteúdo atual é exibido antes da senha ser confirmada pelo servidor.
+**Acesso ao painel:** `https://xn--gomesodontologiaeesttica-ufc.com.br/admin` (não aparece no menu do site nem é indexado pelo Google — `robots.txt` bloqueia e a página tem `<meta name="robots" content="noindex, nofollow">`; `/admin.html` também funciona, mas redireciona pra `/admin`). Quem abrir o link sem saber a senha só vê a tela de login — nenhum campo, nenhum conteúdo atual é exibido antes da senha ser confirmada pelo servidor.

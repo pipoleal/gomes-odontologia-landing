@@ -1,12 +1,4 @@
 {
-  "announcement": {
-    "enabled": true,
-    "title": "teste",
-    "message": "teste",
-    "linkLabel": "teste",
-    "linkUrl": "https://cardapio-3d-iota.vercel.app/l/demo#categoria-bolos",
-    "image": "assets/images/announcements/anuncio.jpg",
-    "imageVersion": 1791240955548
-  },
+  "announcements": [],
   "specialHours": []
 }
