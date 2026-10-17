@@ -1,6 +1,6 @@
 {
   "cleanUrls": true,
   "redirects": [
-    { "source": "/", "destination": "/manutencao.html", "permanent": false }
+    { "source": "/", "destination": "/manutencao", "permanent": false }
   ]
 }
