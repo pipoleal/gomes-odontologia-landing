@@ -309,7 +309,13 @@ address { font-style: normal; }
 .hero__stat strong { display: block; font-family: var(--font-display); font-size: 30px; color: var(--ink); }
 .hero__stat span { font-size: 12px; letter-spacing: 0.04em; color: var(--ink-faint); }
 
-.hero__scene { position: relative; height: clamp(440px, 66vh, 700px); }
+/* Foto vertical 3:4 com a logo da clínica já aplicada no canto superior
+   esquerdo — o quadro segue a proporção da foto pra nunca cortar a logo. */
+.hero__scene {
+  position: relative;
+  height: clamp(480px, 74vh, 720px); aspect-ratio: 3 / 4; max-width: 100%;
+  justify-self: center;
+}
 .hero__scene-photo {
   position: absolute; inset: 0;
   border-radius: 20px; overflow: hidden;
