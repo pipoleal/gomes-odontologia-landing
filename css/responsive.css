@@ -79,7 +79,8 @@
     margin-bottom: 44px;
   }
 
-  .doctor-bio__content h2, .location__info h2 { font-size: 30px; }
+  .doctor-bio__intro { padding: 70px var(--gutter) 32px; }
+  .doctor-bio__intro h2, .location__info h2 { font-size: 30px; }
   .doctor-bio__content, .location__info { padding: 60px var(--gutter); }
 
   .treatments-list { padding-top: 90px; }

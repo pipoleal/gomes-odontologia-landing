@@ -371,10 +371,13 @@ address { font-style: normal; }
   background: var(--cream-deep);
   min-height: 82vh;
 }
+.doctor-bio__intro { grid-column: 1 / -1; text-align: center; padding: 100px var(--gutter) 50px; }
+.doctor-bio__intro h2 { font-size: clamp(30px, 3.4vw, 46px); }
 .doctor-bio__media { position: relative; overflow: hidden; }
 .doctor-bio__content { display: flex; flex-direction: column; justify-content: center; padding: 90px clamp(32px, 6vw, 100px); }
 .doctor-bio__content h2 { font-size: clamp(30px, 3.2vw, 48px); margin-bottom: 26px; max-width: 520px; }
 .doctor-bio__content p { font-size: 16px; line-height: 1.85; color: var(--ink-soft); max-width: 480px; margin-bottom: 18px; }
+.doctor-bio__content .text-link { align-self: flex-start; }
 .doctor-bio__role { font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 18px; display: block; }
 
 /* ============================================================
