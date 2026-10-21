@@ -132,7 +132,7 @@
 <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
   <nav aria-label="Navegação mobile">
     <ul>
-      <li><a href="#tratamentos-principais">Tratamentos</a></li>
+      <li><a href="#tratamentos">Tratamentos</a></li>
       <li><a href="#dra-alanis">Dra. Alanis</a></li>
       <li><a href="#equipe">Equipe</a></li>
       <li><a href="#antes-e-depois">Antes e Depois</a></li>
@@ -153,13 +153,20 @@
   <section class="hero" id="hero">
     <div class="hero__inner">
       <div class="hero__content">
-        <p class="eyebrow reveal-fade" data-reveal>Gomes Odontologia &amp; Estética</p>
+        <p class="eyebrow hero__brand reveal-fade" data-reveal>Gomes Odontologia</p>
+        <h1 class="hero__title reveal-fade" data-reveal>Dentista em Boiçucanga</h1>
         <p class="hero__lead reveal-fade" data-reveal>
-          Cuidado odontológico e estético em Boiçucanga, no litoral norte de São Paulo.
+          Ortodontia, implantes e endodontia em São Sebastião/SP. Cuidado especializado e
+          atendimento humanizado, da prevenção à transformação do sorriso. Conheça nossa
+          equipe e deixe a gente cuidar de você e da sua família, com atenção às
+          necessidades do sorriso de cada um.
         </p>
         <div class="hero__actions reveal-fade" data-reveal>
           <a href="#" class="btn btn--gold" data-whatsapp-link>Agendar Avaliação</a>
-          <a href="#clinica" class="btn btn--ghost">Conhecer a Clínica</a>
+          <ul class="hero__credentials" aria-label="Registro e localização">
+            <li>CRO-SP 137352 · Ativo</li>
+            <li>Boiçucanga - SP</li>
+          </ul>
         </div>
       </div>
 
@@ -177,40 +184,6 @@
     <div class="hero__scroll-indicator" aria-hidden="true">
       <span class="hero__scroll-line"></span>
       <span class="hero__scroll-text">Role para descobrir</span>
-    </div>
-  </section>
-
-  <!-- ============================================
-       02 · STATEMENT
-  =============================================== -->
-  <section class="statement" id="proposta">
-    <div class="statement__inner">
-      <p class="eyebrow reveal-up" data-reveal>Gomes Odontologia &amp; Estética</p>
-      <h1 class="reveal-up" data-reveal>
-        Seu sorriso merece <em>uma experiência extraordinária.</em>
-      </h1>
-      <p class="statement__sub reveal-up" data-reveal>
-        Uma clínica em Boiçucanga, no litoral norte de São Paulo — onde técnica, estética e cuidado se encontram.
-      </p>
-      <div class="statement__actions reveal-up" data-reveal>
-        <a href="#" class="btn btn--gold" data-whatsapp-link>Agendar Avaliação</a>
-        <a href="#clinica" class="btn btn--ghost">Conhecer a Clínica</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================
-       03 · TRATAMENTOS PRINCIPAIS (destaque, 4 cards)
-       Renderizado por js/treatments.js a partir de um array —
-       lista ainda em confirmação com a Dra. Alanis (ver TODO no JS).
-  =============================================== -->
-  <section class="treatments-highlight" id="tratamentos-principais">
-    <div class="treatments-highlight__intro reveal-up" data-reveal>
-      <p class="eyebrow">Tratamentos em destaque</p>
-      <h2>O que buscamos para o seu sorriso.</h2>
-    </div>
-    <div class="treatments-highlight__grid" id="treatmentsHighlightGrid">
-      <!-- Preenchido via JS (js/treatments.js) -->
     </div>
   </section>
 
@@ -634,7 +607,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="js/main.js"></script>
-<script src="js/treatments.js"></script>
 <script src="js/carousel.js"></script>
 <script src="js/animations.js"></script>
 <script src="js/announcement-modal.js"></script>

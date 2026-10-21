@@ -284,7 +284,27 @@ address { font-style: normal; }
   font-family: var(--font-display);
   font-style: italic;
 }
-.hero__actions { display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 40px; }
+.hero__brand { font-size: clamp(15px, 1.4vw, 18px); letter-spacing: 0.22em; margin-bottom: 14px; }
+.hero__title {
+  font-size: clamp(36px, 4.6vw, 62px);
+  line-height: 1.05;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+}
+.hero__actions { display: flex; gap: 18px 28px; flex-wrap: wrap; align-items: center; margin-bottom: 40px; }
+.hero__credentials { display: flex; flex-direction: column; gap: 6px; }
+.hero__credentials li {
+  font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-soft); font-weight: 500;
+  padding-left: 14px; position: relative;
+}
+.hero__credentials li::before {
+  content: ''; position: absolute; left: 0; top: 50%;
+  width: 6px; height: 6px; margin-top: -3px; border-radius: 50%;
+  background: var(--gold);
+}
 .hero__stats { display: flex; gap: clamp(20px, 3vw, 44px); }
 .hero__stat strong { display: block; font-family: var(--font-display); font-size: 30px; color: var(--ink); }
 .hero__stat span { font-size: 12px; letter-spacing: 0.04em; color: var(--ink-faint); }
@@ -318,63 +338,6 @@ address { font-style: normal; }
 .reduced-motion [data-reveal] { opacity: 1; transform: none; }
 
 /* ============================================================
-   02 · STATEMENT — "Seu sorriso merece uma experiência..."
-   ============================================================ */
-.statement {
-  background: var(--cream-deep);
-  padding: 130px var(--gutter);
-  text-align: center;
-}
-.statement__inner { max-width: 780px; margin: 0 auto; }
-.statement h1 {
-  font-size: clamp(36px, 5.4vw, 68px);
-  line-height: 1.08;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  margin: 6px 0 24px;
-}
-.statement h1 em { font-style: italic; color: var(--gold-deep); font-weight: 400; }
-.statement__sub {
-  font-size: clamp(15px, 1.3vw, 18px);
-  color: var(--ink-soft);
-  max-width: 520px;
-  margin: 0 auto 36px;
-}
-.statement__actions { display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; }
-
-/* ============================================================
-   03 · TRATAMENTOS PRINCIPAIS (destaque, 4 cards — js/treatments.js)
-   ============================================================ */
-.treatments-highlight { background: var(--cream); padding: 120px var(--gutter); }
-.treatments-highlight__intro { max-width: 620px; margin: 0 auto 60px; text-align: center; }
-.treatments-highlight__intro h2 { font-size: clamp(30px, 3.4vw, 46px); }
-.treatments-highlight__grid {
-  max-width: var(--container); margin: 0 auto;
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
-  perspective: 1400px;
-}
-.treatment-card {
-  background: var(--cream-card);
-  border: 1px solid var(--line-ink);
-  border-radius: 12px;
-  padding: 40px 26px;
-  text-align: center;
-  transition: transform 0.6s var(--ease-lux), box-shadow 0.5s ease, border-color 0.5s ease;
-  transform-style: preserve-3d;
-}
-.treatment-card:hover { border-color: var(--line); box-shadow: 0 28px 50px -24px rgba(27,29,32,0.22); transform: translateY(-6px) rotateX(2deg); }
-.treatment-card__icon {
-  width: 52px; height: 52px; margin: 0 auto 22px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 50%;
-  background: var(--gold-pale);
-  color: var(--gold-deep);
-}
-.treatment-card__icon svg { width: 26px; height: 26px; }
-.treatment-card h3 { font-size: 21px; margin-bottom: 10px; }
-.treatment-card p { color: var(--ink-soft); font-size: 14px; line-height: 1.6; }
-
-/* ============================================================
    04 · NOSSOS TRATAMENTOS — lista compacta (imagem + texto)
    ============================================================ */
 .treatments-list { background: var(--cream); padding: 120px var(--gutter) 60px; }
@@ -382,14 +345,14 @@ address { font-style: normal; }
 .treatments-list__intro h2 { font-size: clamp(30px, 3.4vw, 46px); }
 .treatments-list__grid { max-width: 920px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px; }
 .treatment-row {
-  display: grid; grid-template-columns: 200px 1fr;
+  display: grid; grid-template-columns: 128px 1fr;
   gap: clamp(24px, 4vw, 48px);
   align-items: center;
   padding: 36px 0;
   border-top: 1px solid var(--line-ink);
 }
 .treatments-list__grid > .treatment-row:last-child { border-bottom: 1px solid var(--line-ink); }
-.treatment-row__media { border-radius: 12px; overflow: hidden; aspect-ratio: 1 / 1; }
+.treatment-row__media { border-radius: 12px; overflow: hidden; aspect-ratio: 1 / 1; height: auto; align-self: start; }
 .treatment-row__index { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-deep); display: block; margin-bottom: 10px; }
 .treatment-row__text h3 { font-size: clamp(22px, 2.4vw, 30px); margin-bottom: 10px; }
 .treatment-row__text p { color: var(--ink-soft); font-size: 15px; line-height: 1.75; max-width: 520px; margin-bottom: 14px; }

@@ -161,7 +161,6 @@ Onde ainda não há foto real (Odontopediatria e Harmonização Facial — este 
 │   └── responsive.css   # breakpoints — mobile tem experiência própria, não só reduzida
 ├── js/
 │   ├── main.js          # config (WhatsApp), header, menu mobile, ano no rodapé
-│   ├── treatments.js    # bloco "Tratamentos em destaque" (array editável)
 │   ├── carousel.js      # carrossel arrastável (Antes/Depois, Depoimentos)
 │   ├── animations.js    # GSAP/ScrollTrigger — parallax, reveals, tilt 3D
 │   ├── announcement-modal.js # componente compartilhado do card de anúncio (site + prévia do painel)
