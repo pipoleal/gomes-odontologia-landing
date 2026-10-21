@@ -296,12 +296,9 @@ address { font-style: normal; }
   box-shadow: 0 50px 90px -30px rgba(27, 29, 32, 0.35);
 }
 .hero__logo-badge {
-  position: absolute; top: 20px; left: 20px; z-index: 2;
-  width: 56px; height: 56px;
-  border-radius: 50%;
-  background: var(--cream-card);
-  box-shadow: 0 10px 24px -8px rgba(27, 29, 32, 0.45);
-  padding: 4px;
+  position: absolute; top: 24px; left: 24px; z-index: 2;
+  width: 148px; height: auto;
+  filter: drop-shadow(0 6px 14px rgba(27, 29, 32, 0.35));
 }
 
 .hero__scroll-indicator {
