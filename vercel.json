@@ -2,5 +2,8 @@
   "cleanUrls": true,
   "redirects": [
     { "source": "/", "destination": "/manutencao", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/preview-site", "destination": "/index.html" }
   ]
 }
