@@ -342,7 +342,18 @@ address { font-style: normal; }
   max-width: 520px;
   margin: 0 auto 36px;
 }
-.statement__actions { display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; }
+.statement__actions { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; justify-content: center; }
+.statement__credential { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.statement__credential-status {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 600; letter-spacing: 0.03em; color: var(--ink);
+}
+.statement__credential-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #3FA860;
+  box-shadow: 0 0 0 3px rgba(63, 168, 96, 0.18);
+}
+.statement__credential-location { font-size: 12px; letter-spacing: 0.03em; color: var(--ink-faint); }
 
 /* ============================================================
    03 · TRATAMENTOS PRINCIPAIS (destaque, 4 cards — js/treatments.js)
