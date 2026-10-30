@@ -7,7 +7,6 @@
 /* ---------- Notebook / tablet-landscape (<=1180px) ---------- */
 @media (max-width: 1180px) {
   .treatments-highlight__grid { grid-template-columns: repeat(2, 1fr); }
-  .team__grid { grid-template-columns: repeat(2, 1fr); }
   .clinic-tour__grid { grid-template-columns: repeat(3, 1fr); }
   .main-nav ul { gap: 22px; }
 
@@ -30,14 +29,16 @@
   .hero__content { max-width: 100%; }
   .hero__scene { height: clamp(340px, 52vh, 480px); margin-top: 20px; }
 
-  .doctor-bio, .location { grid-template-columns: 1fr; }
+  .doctor-bio, .location__top { grid-template-columns: 1fr; }
   .doctor-bio__media { min-height: 380px; }
   .doctor-bio__content { padding: 70px var(--gutter); }
   .location__map { min-height: 320px; order: -1; }
+  .location__details { grid-template-columns: repeat(2, 1fr); }
 
-  .treatment-row { grid-template-columns: 160px 1fr; gap: 24px; }
+  .treatment-row { grid-template-columns: 76px 1fr; gap: 18px; }
 
-  .team__grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .team__grid { gap: 40px; }
+  .team-card { grid-template-columns: 180px 1fr; gap: 24px; }
 }
 
 /* ---------- Mobile (<=680px) — experiência própria ---------- */
@@ -56,6 +57,7 @@
   .hero__scroll-indicator { display: none; }
 
   .hero__scene { height: 320px; margin-top: 16px; }
+  .hero__scene-photo .hero__logo-badge { width: 108px; top: 16px; left: 16px; }
 
   .statement { padding: 90px var(--gutter); }
   .statement__actions { flex-direction: column; align-items: stretch; }
@@ -70,16 +72,18 @@
   .treatments-highlight__grid { grid-template-columns: 1fr; }
   .treatment-card { padding: 34px 24px; }
 
-  .doctor-bio__content h2, .location__info h2 { font-size: 30px; }
+  .doctor-bio__content h2, .location__heading { font-size: 30px; }
   .doctor-bio__content, .location__info { padding: 60px var(--gutter); }
 
   .treatments-list { padding-top: 90px; }
-  .treatment-row { grid-template-columns: 92px 1fr; padding: 22px 0; gap: 16px; align-items: flex-start; }
+  .treatment-row { grid-template-columns: 64px 1fr; padding: 18px 0; gap: 14px; align-items: flex-start; }
   .treatment-row__index { font-size: 10px; margin-bottom: 4px; }
   .treatment-row__text h3 { font-size: 19px; margin-bottom: 6px; }
   .treatment-row__text p { font-size: 13.5px; line-height: 1.55; margin-bottom: 8px; }
 
-  .team__grid { grid-template-columns: 1fr; }
+  .team__grid { gap: 32px; }
+  .team-card { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+  .team-card__media { width: 60%; max-width: 220px; }
 
   .clinic-tour__grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
 
@@ -90,7 +94,7 @@
   .carousel__nav--next { right: 6px; }
 
   .location__info { padding: 60px var(--gutter); }
-  .location__info address { margin-bottom: 30px; }
+  .location__details { grid-template-columns: 1fr; gap: 28px; padding: 48px var(--gutter); }
 
   .final-cta { padding: 120px var(--gutter); }
   .final-cta h2 { font-size: 32px; }
